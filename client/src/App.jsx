@@ -1,16 +1,35 @@
-import { useState } from 'react';
-import reactLogo from './assets/react.svg';
-import viteLogo from '/vite.svg';
-import './App.css';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import Login from './pages/Login';
+import Home from './pages/Home';
+import Toy from './pages/Toy';
+import Order from './pages/Order';
+import Cart from './pages/Cart';
+import AppLayout from './ui/AppLayout';
+import ToyDetail from './pages/ToyDetail';
+import { ConfigProvider, theme } from 'antd';
+import { useDarkMode } from './context/DarkModeContext';
 
 function App() {
-    const [count, setCount] = useState(0);
-
-    const a = 5;
+    const { isDarkMode } = useDarkMode();
     return (
-        <>
-            <div> hehe</div>
-        </>
+        <ConfigProvider
+            theme={{
+                algorithm: isDarkMode ? theme.darkAlgorithm : theme.defaultAlgorithm,
+            }}
+        >
+            <BrowserRouter>
+                <Routes>
+                    <Route element={<AppLayout />}>
+                        <Route path='/' element={<Home />} />
+                        <Route path='/login' element={<Login />} />
+                        <Route path='/product' element={<Toy />} />
+                        <Route path='/product/:toyId' element={<ToyDetail />} />
+                        <Route path='/order' element={<Order />} />
+                        <Route path='/cart' element={<Cart />} />
+                    </Route>
+                </Routes>
+            </BrowserRouter>
+        </ConfigProvider>
     );
 }
 
