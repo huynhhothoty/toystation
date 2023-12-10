@@ -1,4 +1,5 @@
 import {
+    Alert,
     Badge,
     Button,
     Col,
@@ -23,6 +24,8 @@ import {
 import { useState } from 'react';
 import LoginForm from '../features/authentication/LoginForm';
 import { Link } from 'react-router-dom';
+import RegisterForm from '../features/authentication/RegisterForm';
+import ForgetPassword from '../features/authentication/ForgetPassword';
 
 const items = [
     {
@@ -52,17 +55,31 @@ export default function HeaderContent() {
             label: 'Login',
             key: '1',
             icon: <LoginOutlined />,
-            onClick: () => {
-                setOpenLogin(true);
-            },
+            onClick: handleOpenLogin,
         },
         {
             label: 'Register',
             key: '2',
             icon: <UserOutlined />,
+            onClick: handleOpenReg,
         },
     ];
     const [openLogin, setOpenLogin] = useState(false);
+    const [openReg, setOpenReg] = useState(false);
+    const [openForget, setOpenForget] = useState(false);
+    function handleOpenLogin() {
+        setOpenReg(false);
+        setOpenLogin(true);
+    }
+    function handleOpenReg() {
+        setOpenLogin(false);
+        setOpenReg(true);
+    }
+    function handleForget() {
+        setOpenLogin(false);
+        setOpenReg(false);
+        setOpenForget(true);
+    }
     return (
         <Row align='middle' justify='space-evenly'>
             <Col span={3} offset={1}>
@@ -73,7 +90,7 @@ export default function HeaderContent() {
             <Col span={8} offset={2}>
                 <Input
                     prefix={<SearchOutlined />}
-                    className='border-2 border-black placeholder:tracking-wide'
+                    className='rounded-full border-2 border-black placeholder:tracking-wide'
                     placeholder='Explore some wonderful toys...'
                     size='large'
                 />
@@ -119,7 +136,24 @@ export default function HeaderContent() {
                 open={openLogin}
                 onCancel={() => setOpenLogin(false)}
             >
-                <LoginForm />
+                <LoginForm openReg={handleOpenReg} openForget={handleForget} />
+            </Modal>
+            <Modal
+                title='Register an account'
+                footer={null}
+                open={openReg}
+                onCancel={() => setOpenReg(false)}
+            >
+                <RegisterForm openLogin={handleOpenLogin} />
+            </Modal>
+            <Modal
+                title='Reset password'
+                footer={null}
+                open={openForget}
+                onCancel={() => setOpenForget(false)}
+            >
+                <Alert description='We will send reset code to your email' type='info' />
+                <ForgetPassword />
             </Modal>
         </Row>
     );

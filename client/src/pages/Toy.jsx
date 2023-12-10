@@ -1,8 +1,6 @@
-import { Button, Card, Col, Row, Typography } from 'antd';
+import { Row, Typography } from 'antd';
 import FilterProduct from '../features/product/FilterProduct';
-import Meta from 'antd/es/card/Meta';
-import { EyeOutlined, ShoppingCartOutlined } from '@ant-design/icons';
-import { Link } from 'react-router-dom';
+import ToyItem from '../features/toy/ToyItem';
 const { Title } = Typography;
 
 export default function Toy() {
@@ -16,17 +14,7 @@ export default function Toy() {
             <Title className='my-5'>Product</Title>
             <Row justify='space-evenly' gutter={4}>
                 {Array.from({ length: 24 }, (value, index) => index).map((ele) => (
-                    <Col key={ele} span={5} className='mb-5'>
-                        <Card hoverable cover={<img alt='toy' src='/sampleToy.png' />}>
-                            <Meta title='Giiker toy' description='100k' />
-                            <div className='mt-5 flex justify-between'>
-                                <Link to='/product/detailsometoy'>
-                                    <Button icon={<EyeOutlined />}>Detail</Button>
-                                </Link>
-                                <Button icon={<ShoppingCartOutlined />}>Add cart</Button>
-                            </div>
-                        </Card>
-                    </Col>
+                    <ToyItem key={ele} span={5} />
                 ))}
             </Row>
         </div>

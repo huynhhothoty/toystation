@@ -1,5 +1,5 @@
 import { Outlet } from 'react-router-dom';
-import { Affix, Divider, FloatButton, Layout } from 'antd';
+import { Affix, Divider, FloatButton, Layout, Tooltip } from 'antd';
 import {
     PhoneOutlined,
     QuestionCircleOutlined,
@@ -37,8 +37,12 @@ export default function AppLayout() {
                 icon={<SettingFilled />}
                 className='right-14'
             >
-                <FloatButton icon={<QuestionCircleOutlined />} />
-                <FloatButton icon={<SyncOutlined />} onClick={toggleMode} />
+                <Tooltip title='How to use' placement='left'>
+                    <FloatButton icon={<QuestionCircleOutlined />} />
+                </Tooltip>
+                <Tooltip title='Dark Mode' placement='left'>
+                    <FloatButton icon={<SyncOutlined />} onClick={toggleMode} />
+                </Tooltip>
             </FloatButton.Group>
         </Layout>
     );

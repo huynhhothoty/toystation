@@ -8,6 +8,7 @@ import AppLayout from './ui/AppLayout';
 import ToyDetail from './pages/ToyDetail';
 import { ConfigProvider, theme } from 'antd';
 import { useDarkMode } from './context/DarkModeContext';
+import PageNotFound from './pages/PageNotFound';
 
 function App() {
     const { isDarkMode } = useDarkMode();
@@ -27,6 +28,7 @@ function App() {
                         <Route path='/order' element={<Order />} />
                         <Route path='/cart' element={<Cart />} />
                     </Route>
+                    <Route path='*' element={<PageNotFound />} />
                 </Routes>
             </BrowserRouter>
         </ConfigProvider>

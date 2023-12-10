@@ -1,5 +1,5 @@
 import { MinusOutlined, PlusOutlined, ShoppingCartOutlined } from '@ant-design/icons';
-import { Button, Divider, Input, Tabs, Typography } from 'antd';
+import { Button, Card, Divider, Input, Tabs, Typography } from 'antd';
 const { Title, Text } = Typography;
 
 const items = [
@@ -27,7 +27,7 @@ const items = [
 
 export default function ToyInfo() {
     return (
-        <>
+        <Card>
             <Title>Smart toy use to solve quiz Giiker</Title>
             <Divider />
             <Text>100,000 VND</Text>
@@ -42,6 +42,6 @@ export default function ToyInfo() {
             </div>
             <Divider />
             <Tabs tabBarGutter={80} defaultActiveKey='1' items={items} centered />
-        </>
+        </Card>
     );
 }

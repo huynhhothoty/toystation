@@ -6,7 +6,7 @@ const { Title } = Typography;
 export default function Home() {
     return (
         <>
-            <Carousel autoplay autoplaySpeed={1500} className='w-'>
+            <Carousel autoplay autoplaySpeed={1500} className=''>
                 <div>
                     <Link to='/product'>
                         <Image
@@ -39,42 +39,49 @@ export default function Home() {
                 </div>
             </Carousel>
 
-            <Title className='my-10 text-center'>What are you looking for?</Title>
-            <Row className='px-5' gutter={20}>
-                {Array.from({ length: 6 }, (v, i) => i).map((ele) => (
-                    <Col key={ele} span={4}>
-                        <Link to='/product'>
-                            <Card hoverable cover={<Image preview={false} src='/sampleToy.png' />}>
-                                <Meta title='Quiz' />
-                            </Card>
-                        </Link>
-                    </Col>
-                ))}
-            </Row>
+            <Card className='mt-10'>
+                <Title className='mb-10 text-center'>What are you looking for?</Title>
+                <Row className='px-5' gutter={20}>
+                    {Array.from({ length: 6 }, (v, i) => i).map((ele) => (
+                        <Col key={ele} span={4}>
+                            <Link to='/product'>
+                                <Card
+                                    hoverable
+                                    cover={<Image preview={false} src='/sampleToy.png' />}
+                                >
+                                    <Meta title='Quiz' />
+                                </Card>
+                            </Link>
+                        </Col>
+                    ))}
+                </Row>
+            </Card>
 
-            <Title className='my-10 text-center'>Best seller</Title>
-            <Row className='px-5' gutter={20}>
-                <Col span={6}>
-                    <Card hoverable cover={<img alt='toy' src='/sampleToy.png' />}>
-                        <Meta title='Quiz' />
-                    </Card>
-                </Col>
-                <Col span={6}>
-                    <Card hoverable cover={<img alt='toy' src='/sampleToy.png' />}>
-                        <Meta title='Quiz' />
-                    </Card>
-                </Col>
-                <Col span={6}>
-                    <Card hoverable cover={<img alt='toy' src='/sampleToy.png' />}>
-                        <Meta title='Quiz' />
-                    </Card>
-                </Col>
-                <Col span={6}>
-                    <Card hoverable cover={<img alt='toy' src='/sampleToy.png' />}>
-                        <Meta title='Quiz' />
-                    </Card>
-                </Col>
-            </Row>
+            <Card className='mt-10'>
+                <Title className='mb-10 text-center'>Best seller</Title>
+                <Row className='px-5' gutter={20}>
+                    <Col span={6}>
+                        <Card hoverable cover={<img alt='toy' src='/sampleToy.png' />}>
+                            <Meta title='Quiz' />
+                        </Card>
+                    </Col>
+                    <Col span={6}>
+                        <Card hoverable cover={<img alt='toy' src='/sampleToy.png' />}>
+                            <Meta title='Quiz' />
+                        </Card>
+                    </Col>
+                    <Col span={6}>
+                        <Card hoverable cover={<img alt='toy' src='/sampleToy.png' />}>
+                            <Meta title='Quiz' />
+                        </Card>
+                    </Col>
+                    <Col span={6}>
+                        <Card hoverable cover={<img alt='toy' src='/sampleToy.png' />}>
+                            <Meta title='Quiz' />
+                        </Card>
+                    </Col>
+                </Row>
+            </Card>
         </>
     );
 }

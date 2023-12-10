@@ -1,4 +1,4 @@
-import { Cascader, Col, Row } from 'antd';
+import { Card, Cascader, Col, Row } from 'antd';
 
 const BrandOptions = [
     {
@@ -34,67 +34,69 @@ export default function FilterProduct() {
         console.log(value);
     };
     return (
-        <Row justify='space-evenly' align='middle'>
-            <Col span={4}>
-                <Cascader
-                    placement='bottomLeft'
-                    placeholder='Select branch'
-                    size='middle'
-                    className='w-[100%]'
-                    options={BrandOptions}
-                    onChange={onChange}
-                    multiple
-                    maxTagCount={2}
-                />
-            </Col>
-            <Col span={4}>
-                <Cascader
-                    placement='bottomLeft'
-                    placeholder='Select price'
-                    size='middle'
-                    className='w-[100%]'
-                    options={PriceOptions}
-                    onChange={onChange}
-                    multiple
-                    maxTagCount={3}
-                />
-            </Col>
-            <Col span={4}>
-                <Cascader
-                    placement='bottomLeft'
-                    placeholder='Select material'
-                    size='middle'
-                    className='w-[100%]'
-                    options={BrandOptions}
-                    onChange={onChange}
-                    multiple
-                    maxTagCount={3}
-                />
-            </Col>
-            <Col span={4}>
-                <Cascader
-                    placement='bottomLeft'
-                    placeholder='Select age'
-                    size='middle'
-                    className='w-[100%]'
-                    options={BrandOptions}
-                    onChange={onChange}
-                    multiple
-                    maxTagCount={3}
-                />
-            </Col>
-            <Col span={4}>
-                <Cascader
-                    placement='bottomLeft'
-                    placeholder='Select category'
-                    size='middle'
-                    className='w-[100%]'
-                    options={BrandOptions}
-                    onChange={onChange}
-                    multiple
-                    maxTagCount={3}
-                />
-            </Col>
-        </Row>
+        <Card>
+            <Row justify='space-evenly' align='middle'>
+                <Col span={4}>
+                    <Cascader
+                        placement='bottomLeft'
+                        placeholder='Select branch'
+                        size='middle'
+                        className='w-[100%]'
+                        options={BrandOptions}
+                        onChange={onChange}
+                        multiple
+                        maxTagCount={2}
+                    />
+                </Col>
+                <Col span={4}>
+                    <Cascader
+                        placement='bottomLeft'
+                        placeholder='Select price'
+                        size='middle'
+                        className='w-[100%]'
+                        options={PriceOptions}
+                        onChange={onChange}
+                        multiple
+                        maxTagCount={3}
+                    />
+                </Col>
+                <Col span={4}>
+                    <Cascader
+                        placement='bottomLeft'
+                        placeholder='Select material'
+                        size='middle'
+                        className='w-[100%]'
+                        options={BrandOptions}
+                        onChange={onChange}
+                        multiple
+                        maxTagCount={3}
+                    />
+                </Col>
+                <Col span={4}>
+                    <Cascader
+                        placement='bottomLeft'
+                        placeholder='Select age'
+                        size='middle'
+                        className='w-[100%]'
+                        options={BrandOptions}
+                        onChange={onChange}
+                        multiple
+                        maxTagCount={3}
+                    />
+                </Col>
+                <Col span={4}>
+                    <Cascader
+                        placement='bottomLeft'
+                        placeholder='Select category'
+                        size='middle'
+                        className='w-[100%]'
+                        options={BrandOptions}
+                        onChange={onChange}
+                        multiple
+                        maxTagCount={3}
+                    />
+                </Col>
+            </Row>
+        </Card>
     );
 }
