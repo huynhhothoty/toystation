@@ -1,5 +1,5 @@
 import { Outlet } from 'react-router-dom';
-import { Affix, Divider, FloatButton, Layout, Tooltip } from 'antd';
+import { Affix, FloatButton, Layout, Tooltip } from 'antd';
 import {
     PhoneOutlined,
     QuestionCircleOutlined,

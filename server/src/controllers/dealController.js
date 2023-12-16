@@ -4,7 +4,7 @@ const { createOne, updateOne, getAll, getOne, deleteOne } = require('./crudContr
 const createDeal = createOne(Deal);
 const updateDeal = updateOne(Deal);
 const getAllDeal = getAll(Deal);
-const getOneDeal = getOne(Deal);
+const getOneDeal = getOne(Deal, null);
 const deleteDeal = deleteOne(Deal);
 
 module.exports = {

@@ -2,6 +2,38 @@ const { User } = require('../models/userModel');
 const { CustomError } = require('../utils/CustomError');
 const jwt = require('jsonwebtoken');
 const { filterObject } = require('../utils/filterObject');
+// const mongoose = require('mongoose');
+
+const getCurrentUser = async (req, res, next) => {
+    if (req.cookies.jwt) {
+        let decode;
+        try {
+            decode = jwt.verify(req.cookies.jwt, process.env.JWT_SECRET);
+        } catch (error) {
+            return next(
+                new CustomError('Invalid or Expired token, please login again', 401)
+            );
+        }
+        const currentUser = await User.findById(decode.id).populate({
+            path: 'cart',
+            populate: { path: 'item' },
+        });
+
+        if (currentUser) {
+            res.status(200).send({
+                status: 'ok',
+                user: currentUser,
+            });
+            return;
+        }
+    }
+
+    res.status(200).send({
+        status: 'ok',
+        message: 'No current user',
+        user: null,
+    });
+};
 
 const createAndSendToken = (user, statusCode, res) => {
     const jwtToken = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
@@ -14,6 +46,7 @@ const createAndSendToken = (user, statusCode, res) => {
         httpOnly: true,
     };
 
+    //
     if (process.env.NODE_ENV === 'production') cookieOptions.secure = true;
 
     res.cookie('jwt', jwtToken, cookieOptions);
@@ -22,7 +55,7 @@ const createAndSendToken = (user, statusCode, res) => {
     res.status(statusCode).send({
         status: 'ok',
         accessToken: jwtToken,
-        data: filterUser,
+        user: filterUser,
     });
 };
 
@@ -64,7 +97,45 @@ const login = async (req, res, next) => {
     }
 };
 
+const logout = (req, res, next) => {
+    res.cookie('jwt', 'logout', {
+        expires: new Date(Date.now() + 10 * 1000),
+    });
+
+    res.status(200).send({
+        status: 'ok',
+    });
+};
+
+const updateUser = async (req, res, next) => {
+    try {
+        const updatedUser = await User.findByIdAndUpdate(req.params.id, req.body, {
+            new: true,
+            runValidators: true,
+        });
+        // const updatedUser = await User.findOneAndUpdate(
+        //     { _id: req.params.id },
+        //     req.body,
+        //     {
+        //         new: true,
+        //         runValidators: true,
+        //     }
+        // );
+
+        res.status(200).send({
+            status: 'ok',
+            user: updatedUser,
+        });
+    } catch (error) {
+        console.log(error);
+        return next(error);
+    }
+};
+
 module.exports = {
     register,
     login,
+    logout,
+    getCurrentUser,
+    updateUser,
 };

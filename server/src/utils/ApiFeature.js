@@ -14,7 +14,7 @@ class ApiFeatures {
         for (const key in queryFields) {
             // console.log(typeof queryFields[key]);
             if (
-                queryFields.hasOwn(key) &&
+                key in queryFields &&
                 typeof queryFields[key] === 'string' &&
                 isNaN(queryFields[key])
             ) {

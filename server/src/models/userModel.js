@@ -3,7 +3,7 @@ const bcrypt = require('bcrypt');
 const validator = require('validator');
 const crypto = require('crypto');
 
-const useSchema = new mongoose.Schema({
+const userSchema = new mongoose.Schema({
     name: {
         type: String,
         required: [true, 'Please fill your name'],
@@ -31,6 +31,19 @@ const useSchema = new mongoose.Schema({
         },
         default: 'guest',
     },
+    cart: [
+        {
+            _id: false,
+            numbers: {
+                type: Number,
+                default: 1,
+            },
+            item: {
+                type: mongoose.Schema.ObjectId,
+                ref: 'Toy',
+            },
+        },
+    ],
     passwordResetToken: {
         type: String,
     },
@@ -44,7 +57,7 @@ const useSchema = new mongoose.Schema({
 
 // middlewares
 // hash password before save to db
-useSchema.pre('save', async function (next) {
+userSchema.pre('save', async function (next) {
     if (!this.isModified('password')) {
         return next();
     }
@@ -57,12 +70,12 @@ useSchema.pre('save', async function (next) {
 });
 
 // function use to compare a password and user password
-useSchema.methods.comparePassword = function (typePass, dbPass) {
+userSchema.methods.comparePassword = function (typePass, dbPass) {
     return bcrypt.compareSync(typePass, dbPass);
 };
 
 // function use to create reset password token
-useSchema.methods.createPasswordResetToken = function () {
+userSchema.methods.createPasswordResetToken = function () {
     const resetToken = crypto.randomBytes(16).toString('hex');
 
     this.passwordResetToken = crypto
@@ -77,7 +90,7 @@ useSchema.methods.createPasswordResetToken = function () {
 };
 
 // function use to check if password has change after gen token,
-useSchema.methods.changePasswordAfter = function (JWTTimestamp) {
+userSchema.methods.changePasswordAfter = function (JWTTimestamp) {
     if (this.passwordChangedAt) {
         const changedTimestamp = parseInt(this.passwordChangedAt.getTime() / 1000, 10);
 
@@ -89,5 +102,5 @@ useSchema.methods.changePasswordAfter = function (JWTTimestamp) {
     return false;
 };
 // create and export
-const User = mongoose.model('User', useSchema);
+const User = mongoose.model('User', userSchema);
 module.exports = { User };

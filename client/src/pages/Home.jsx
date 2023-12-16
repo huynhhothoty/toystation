@@ -8,7 +8,7 @@ export default function Home() {
         <>
             <Carousel autoplay autoplaySpeed={1500} className=''>
                 <div>
-                    <Link to='/product'>
+                    <Link to='/toys'>
                         <Image
                             preview={false}
                             className='w-[100%]'
@@ -18,21 +18,21 @@ export default function Home() {
                     </Link>
                 </div>
                 <div>
-                    <Link to='/product'>
+                    <Link to='/toys'>
                         <Image
                             preview={false}
                             className='w-[100%]'
-                            src='/carousel.png'
+                            src='/carousel2.png'
                             alt='carousel'
                         />
                     </Link>
                 </div>
                 <div>
-                    <Link to='/product'>
+                    <Link to='/toys'>
                         <Image
                             preview={false}
                             className='w-[100%]'
-                            src='/carousel.png'
+                            src='/carousel3.png'
                             alt='carousel'
                         />
                     </Link>
@@ -44,7 +44,7 @@ export default function Home() {
                 <Row className='px-5' gutter={20}>
                     {Array.from({ length: 6 }, (v, i) => i).map((ele) => (
                         <Col key={ele} span={4}>
-                            <Link to='/product'>
+                            <Link to='/toys'>
                                 <Card
                                     hoverable
                                     cover={<Image preview={false} src='/sampleToy.png' />}
