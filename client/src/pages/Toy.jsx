@@ -6,6 +6,7 @@ const { Title } = Typography;
 
 export default function Toy() {
     const { toys, isLoading } = useToys();
+
     return (
         <div className='flex flex-col'>
             <Title className='mb-5'>Filter</Title>

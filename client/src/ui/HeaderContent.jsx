@@ -30,16 +30,26 @@ import { useUser } from '../features/account/useUser';
 import { useLogout } from '../features/authentication/useLogout';
 
 export default function HeaderContent() {
+    const [openLogin, setOpenLogin] = useState(false);
+    const [openReg, setOpenReg] = useState(false);
+    const [openForget, setOpenForget] = useState(false);
+    const navigate = useNavigate();
+
+    const { user, isAuthenticated } = useUser();
+    const { modal } = App.useApp();
+    const { logout } = useLogout();
     const itemsWhenAuth = [
         {
             label: 'Account',
             key: '1',
             icon: <SettingOutlined />,
+            onClick: () => navigate('/account'),
         },
         {
-            label: 'History',
+            label: 'My order',
             key: '2',
             icon: <InfoCircleOutlined />,
+            onClick: () => navigate('/ordertracking'),
         },
         {
             type: 'divider',
@@ -66,14 +76,6 @@ export default function HeaderContent() {
             onClick: handleOpenReg,
         },
     ];
-    const [openLogin, setOpenLogin] = useState(false);
-    const [openReg, setOpenReg] = useState(false);
-    const [openForget, setOpenForget] = useState(false);
-    const navigate = useNavigate();
-
-    const { user, isAuthenticated } = useUser();
-    const { modal } = App.useApp();
-    const { logout } = useLogout();
 
     function handleLogout() {
         modal.confirm({
@@ -117,7 +119,7 @@ export default function HeaderContent() {
 
             <Col span={5} offset={1}>
                 <Space size='large'>
-                    <CartButton />
+                    <CartButton openLogin={handleOpenLogin} />
                     <Dropdown
                         arrow
                         menu={{ items: isAuthenticated ? itemsWhenAuth : itemsWhenNotAuth }}
@@ -125,7 +127,7 @@ export default function HeaderContent() {
                         placement='bottomRight'
                     >
                         <Button
-                            className='border-2 border-black'
+                            className='bg- border-2 border-black'
                             size='large'
                             shape='circle'
                             icon={<UserOutlined />}
@@ -156,7 +158,7 @@ export default function HeaderContent() {
                 open={openReg}
                 onCancel={() => setOpenReg(false)}
             >
-                <RegisterForm openLogin={handleOpenLogin} />
+                <RegisterForm openLogin={handleOpenLogin} setOpenReg={setOpenReg} />
             </Modal>
             <Modal
                 maskClosable={false}
@@ -166,7 +168,7 @@ export default function HeaderContent() {
                 onCancel={() => setOpenForget(false)}
             >
                 <Alert description='We will send reset code to your email' type='info' />
-                <ForgetPassword />
+                <ForgetPassword setOpenForget={setOpenForget} />
             </Modal>
         </Row>
     );

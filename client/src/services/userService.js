@@ -1,10 +1,107 @@
 // import axios from 'axios';
 import customAxios from './CustomAxios';
-import { loginUrl, logoutUrl, getCurUserUrl } from '../utils/api/apis';
+import {
+    loginUrl,
+    logoutUrl,
+    getCurUserUrl,
+    registerUrl,
+    forgetPassUrl,
+    resetPassUrl,
+    userUrl,
+    changePassUrl,
+} from '../utils/api/apis';
+
+export async function updatePassword({ oldPassword, newPassword }) {
+    try {
+        const res = await customAxios({
+            method: 'patch',
+            url: changePassUrl,
+            data: {
+                oldPassword,
+                newPassword,
+            },
+        });
+
+        return res.data;
+    } catch (error) {
+        const errMsg = error.response.data.message;
+        throw new Error(errMsg);
+    }
+}
+
+export async function updateUserInfo({ userId, updateInfo }) {
+    try {
+        const res = await customAxios({
+            method: 'patch',
+            url: `${userUrl}/${userId}`,
+            data: updateInfo,
+        });
+
+        return res.data;
+    } catch (error) {
+        const errMsg = error.response.data.message;
+        throw new Error(errMsg);
+    }
+}
+
+export async function forgetPassword({ email }) {
+    try {
+        const res = await customAxios({
+            method: 'post',
+            url: forgetPassUrl,
+            data: {
+                email,
+            },
+        });
+
+        return res.data;
+    } catch (error) {
+        const errMsg = error.response.data.message;
+        throw new Error(errMsg);
+    }
+}
+
+export async function resetPassword({ userId, newPassword, resetToken }) {
+    try {
+        const res = await customAxios({
+            method: 'patch',
+            url: `${resetPassUrl}/${userId}`,
+            data: {
+                newPassword,
+                resetToken,
+            },
+        });
+
+        return res.data;
+    } catch (error) {
+        const errMsg = error.response.data.message;
+        throw new Error(errMsg);
+    }
+}
+
+export async function register({ email, password, phone, name }) {
+    try {
+        const res = await customAxios({
+            method: 'post',
+            url: registerUrl,
+            data: {
+                email,
+                password,
+                phone,
+                name,
+            },
+        });
+
+        return res.data;
+    } catch (error) {
+        const errMsg = error.response.data.message;
+        throw new Error(errMsg);
+    }
+}
 
 export async function login({ email, password }) {
     try {
-        let data = await customAxios({
+        const res = await customAxios({
             method: 'post',
             url: loginUrl,
             data: {
@@ -13,7 +110,7 @@ export async function login({ email, password }) {
             },
         });
 
-        return data;
+        return res;
     } catch (error) {
         const errMsg = error.response.data.message;
         throw new Error(errMsg);
@@ -22,7 +119,7 @@ export async function login({ email, password }) {
 
 export async function getCurrentUser() {
     try {
-        let data = await customAxios({
+        const data = await customAxios({
             method: 'get',
             url: getCurUserUrl,
         });

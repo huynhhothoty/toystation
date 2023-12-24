@@ -1,8 +1,7 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import Login from './pages/Login';
 import Home from './pages/Home';
 import Toy from './pages/Toy';
-import Order from './pages/Order';
+import OrderPage from './pages/OrderPage';
 import Cart from './pages/Cart';
 import AppLayout from './ui/AppLayout';
 import ToyDetail from './pages/ToyDetail';
@@ -11,6 +10,9 @@ import { useDarkMode } from './context/DarkModeContext';
 import PageNotFound from './pages/PageNotFound';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
+import Account from './pages/Account';
+import ProtectRoute from './ui/ProtectRoute';
+import Order from './features/order/Order';
 
 const queryClient = new QueryClient({
     defaultOptions: {
@@ -35,11 +37,14 @@ function App() {
                         <Routes>
                             <Route element={<AppLayout />}>
                                 <Route path='/' element={<Home />} />
-                                <Route path='/login' element={<Login />} />
                                 <Route path='/toys' element={<Toy />} />
                                 <Route path='/toys/:toyId' element={<ToyDetail />} />
-                                <Route path='/order' element={<Order />} />
-                                <Route path='/cart' element={<Cart />} />
+                                <Route element={<ProtectRoute />}>
+                                    <Route path='/account' element={<Account />} />
+                                    <Route path='/cart' element={<Cart />} />
+                                    <Route path='/order' element={<OrderPage />} />
+                                    <Route path='/ordertracking' element={<Order />} />
+                                </Route>
                             </Route>
                             <Route path='*' element={<PageNotFound />} />
                         </Routes>

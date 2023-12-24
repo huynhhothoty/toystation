@@ -23,6 +23,9 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: [true, 'Please provide your password'],
     },
+    address: {
+        type: String,
+    },
     role: {
         type: String,
         enum: {
@@ -76,7 +79,7 @@ userSchema.methods.comparePassword = function (typePass, dbPass) {
 
 // function use to create reset password token
 userSchema.methods.createPasswordResetToken = function () {
-    const resetToken = crypto.randomBytes(16).toString('hex');
+    const resetToken = crypto.randomBytes(4).toString('hex');
 
     this.passwordResetToken = crypto
         .createHash('sha256')

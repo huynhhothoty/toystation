@@ -3,7 +3,7 @@ import { Button, Card, Col, Row, Typography } from 'antd';
 import { Link } from 'react-router-dom';
 const { Title, Text } = Typography;
 
-export default function Address() {
+export default function Address({ address, userName }) {
     return (
         <Card className='w-full'>
             <Title
@@ -18,14 +18,11 @@ export default function Address() {
 
             <Row gutter={2} justify='space-between' align='middle'>
                 <Col span={3}>
-                    <Title level={3}>Username</Title>
+                    <Title level={3}>{userName}</Title>
                     <Text type='warning'>0909090909</Text>
                 </Col>
                 <Col span={16}>
-                    <Text>
-                        Lorem ipsum dolor sit, amet consectetur adipisicing elit. Amet architecto
-                        eum maxime sunt laborum dolorem officia quo aliquid eveniet repellendus?
-                    </Text>
+                    <Text>{address}</Text>
                 </Col>
                 <Col span={3}>
                     <Link to='/account'>

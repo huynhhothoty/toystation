@@ -6,6 +6,10 @@ const orderSchema = new Schema({
         ref: 'User',
         required: [true, 'Please fill user'],
     },
+    address: {
+        type: String,
+        required: [true, 'Please fill address'],
+    },
     status: {
         type: String,
         enum: {
@@ -26,6 +30,11 @@ const orderSchema = new Schema({
             ref: 'Deal',
         },
     ],
+    listSnapshot: [
+        {
+            type: Object,
+        },
+    ],
     deliveryEstimate: {
         type: Date,
         default: new Date(Date.now() + 60 * 60 * 1000 * 24 * 3).toISOString(),
@@ -33,7 +42,13 @@ const orderSchema = new Schema({
 });
 
 // middlewares
+orderSchema.pre('save', async function (next) {
+    await this.populate([{ path: 'itemList' }, { path: 'dealList' }]);
+    const orderItemList = this.itemList.length > 0 ? this.itemList : this.dealList;
+    this.listSnapshot = orderItemList.map((ele) => ele.toObject());
 
+    next();
+});
 //
 const Order = model('Order', orderSchema);
 

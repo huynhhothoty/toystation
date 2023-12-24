@@ -1,5 +1,5 @@
 import { InfoCircleOutlined, ShoppingCartOutlined } from '@ant-design/icons';
-import { Button, Card, Col, Spin, Typography } from 'antd';
+import { Button, Card, Col, Spin, Tooltip, Typography } from 'antd';
 import { Link } from 'react-router-dom';
 import { formatCurrency } from '../../utils/helpers';
 import { useUser } from '../account/useUser';
@@ -7,12 +7,12 @@ import { useChangeCart } from '../cart/useChangeCart';
 const { Title, Text } = Typography;
 
 export default function ToyItem({ span, toy }) {
-    const { user } = useUser();
+    const { user, isAuthenticated } = useUser();
     const { changeCart, isChanging } = useChangeCart();
 
     function handleAddToCart() {
         let isNewItem = true;
-        const newCart = user.cart.map((ele) => {
+        const newCart = user?.cart.map((ele) => {
             if (ele.item._id === toy._id) {
                 isNewItem = false;
                 return { ...ele, numbers: ele.numbers + 1 };
@@ -42,9 +42,22 @@ export default function ToyItem({ span, toy }) {
                         <Link to={`/toys/${toy._id}`}>
                             <Button icon={<InfoCircleOutlined />}>Detail</Button>
                         </Link>
-                        <Button onClick={() => handleAddToCart()} icon={<ShoppingCartOutlined />}>
-                            Add
-                        </Button>
+                        <Tooltip
+                            placement='top'
+                            title={
+                                isAuthenticated
+                                    ? 'Add this toy to my cart'
+                                    : 'Please login to add cart'
+                            }
+                        >
+                            <Button
+                                disabled={!isAuthenticated}
+                                onClick={() => handleAddToCart()}
+                                icon={<ShoppingCartOutlined />}
+                            >
+                                Add
+                            </Button>
+                        </Tooltip>
                     </div>
                 </Card>
             </Spin>

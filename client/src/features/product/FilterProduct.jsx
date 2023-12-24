@@ -1,4 +1,4 @@
-import { Card, Cascader, Col, Row } from 'antd';
+import { Button, Card, Cascader, Col, Row } from 'antd';
 
 const BrandOptions = [
     {
@@ -35,7 +35,7 @@ export default function FilterProduct() {
     };
     return (
         <Card>
-            <Row justify='space-evenly' align='middle'>
+            <Row align='middle' gutter={16}>
                 <Col span={4}>
                     <Cascader
                         placement='bottomLeft'
@@ -75,7 +75,7 @@ export default function FilterProduct() {
                 <Col span={4}>
                     <Cascader
                         placement='bottomLeft'
-                        placeholder='Select age'
+                        placeholder='Select category'
                         size='middle'
                         className='w-[100%]'
                         options={BrandOptions}
@@ -87,7 +87,7 @@ export default function FilterProduct() {
                 <Col span={4}>
                     <Cascader
                         placement='bottomLeft'
-                        placeholder='Select category'
+                        placeholder='Select age'
                         size='middle'
                         className='w-[100%]'
                         options={BrandOptions}
@@ -95,6 +95,11 @@ export default function FilterProduct() {
                         multiple
                         maxTagCount={3}
                     />
+                </Col>
+                <Col span={2} offset={2}>
+                    <Button size='large' type='primary'>
+                        Filter
+                    </Button>
                 </Col>
             </Row>
         </Card>

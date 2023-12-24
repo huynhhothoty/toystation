@@ -12,14 +12,17 @@ export function useChangeCart() {
                 queryKey: ['user'],
             });
             notification.success({
-                message: 'Add to cart successfully!',
+                message: 'Update cart successfully!',
                 description: 'Please continue your shopping',
+                placement: 'bottomLeft',
+                duration: 1,
             });
         },
         onError: () => {
             notification.error({
                 message: 'Failed',
                 description: 'There was an error, try again',
+                placement: 'bottomLeft',
             });
         },
     });

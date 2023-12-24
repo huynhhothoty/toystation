@@ -1,91 +1,31 @@
-import { Button, Card, Col, Divider, Input, Row, Space, Table, Typography } from 'antd';
-import {
-    ArrowLeftOutlined,
-    DeleteOutlined,
-    MinusOutlined,
-    MoneyCollectOutlined,
-    PlusOutlined,
-} from '@ant-design/icons';
-import ToyItem from '../features/toy/ToyItem';
+import { Button, Card, Col, Divider, Row, Spin, Typography } from 'antd';
+import { ArrowLeftOutlined, MoneyCollectOutlined } from '@ant-design/icons';
+import { formatCurrency } from '../utils/helpers';
+import { useUser } from '../features/account/useUser';
+import { Link } from 'react-router-dom';
+import ItemList from '../features/cart/ItemList';
 const { Title, Text } = Typography;
 
-const columns = [
-    {
-        title: 'Numbers',
-        dataIndex: 'number',
-        width: 100,
-    },
-    {
-        title: 'Name',
-        dataIndex: 'name',
-    },
-    {
-        title: 'Quantity',
-        dataIndex: 'quantity',
-    },
-    {
-        title: 'UnitPrice',
-        dataIndex: 'unit',
-    },
-    {
-        title: 'TotalPrice',
-        dataIndex: 'total',
-    },
-    {
-        title: 'Options',
-        dataIndex: 'option',
-        render: () => (
-            <Space size='large'>
-                <Space size='small'>
-                    <Button icon={<MinusOutlined />} />
-                    <Input className='w-[30px] text-center' defaultValue={1} />
-                    <Button icon={<PlusOutlined />} />
-                </Space>
-
-                <Button danger icon={<DeleteOutlined />} />
-            </Space>
-        ),
-    },
-];
-
-const data = [
-    {
-        key: '1',
-        number: '1',
-        name: 'Snack X',
-        quantity: '2',
-        unit: '50k',
-        total: '100k',
-    },
-    {
-        key: '2',
-        number: '2',
-        name: 'Tomato',
-        quantity: '2',
-        unit: '50k',
-        total: '100k',
-    },
-    {
-        key: '3',
-        number: '2',
-        name: 'Orange',
-        quantity: '2',
-        unit: '50k',
-        total: '100k',
-    },
-];
-
 export default function Cart() {
+    const { user, isLoading } = useUser();
+
+    const currentCart = user?.cart;
+    const sumPrice = currentCart?.reduce((sum, cur) => (sum += cur.item.price * cur.numbers), 0);
+
     return (
         <>
+            <Spin spinning={isLoading} fullscreen />
             <Row gutter={2} justify='space-between' align='middle'>
                 <Col span={16}>
                     <Title className='text-center'>Your Cart</Title>
-                    <Table columns={columns} dataSource={data} />
 
-                    <Button className='' size='large' icon={<ArrowLeftOutlined />}>
-                        Continue shopping
-                    </Button>
+                    <ItemList editable={true} />
+
+                    <Link to='/toys'>
+                        <Button size='large' icon={<ArrowLeftOutlined />}>
+                            Continue shopping
+                        </Button>
+                    </Link>
                 </Col>
                 <Col span={6}>
                     <Card>
@@ -95,13 +35,17 @@ export default function Cart() {
                         <Divider />
                         <div className='flex justify-between'>
                             <Text type='danger'>Total</Text>
-                            <Text mark>99,99VND</Text>
+                            <Text strong className='text-xl' mark>
+                                {formatCurrency(sumPrice)}
+                            </Text>
                         </div>
                         <Divider />
                         <div className='flex justify-end'>
-                            <Button size='large' type='primary' icon={<MoneyCollectOutlined />}>
-                                Go to order page
-                            </Button>
+                            <Link to='/order'>
+                                <Button size='large' type='primary' icon={<MoneyCollectOutlined />}>
+                                    Order now!
+                                </Button>
+                            </Link>
                         </div>
                     </Card>
                 </Col>
@@ -109,11 +53,11 @@ export default function Cart() {
 
             <Title className='mt-10 text-center'>You may like those</Title>
             <Divider />
-            <Row justify='space-evenly' align='middle' gutter={1}>
+            {/* <Row justify='space-evenly' align='middle' gutter={1}>
                 {Array.from({ length: 4 }, (v, i) => i).map((ele) => (
                     <ToyItem key={ele} span={5} />
                 ))}
-            </Row>
+            </Row> */}
         </>
     );
 }

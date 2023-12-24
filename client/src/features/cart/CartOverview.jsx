@@ -16,7 +16,7 @@ function CartOverviewItem({ item }) {
 
 export default function CartOverview() {
     const { user, isLoading, isAuthenticated } = useUser();
-    if (!isAuthenticated) return <h3>Login to your account to view cart</h3>;
+    if (!isAuthenticated) return <Empty description='Please login to inspect your cart' />;
     if (isLoading) return <Spin />;
     if (user?.cart?.length === 0) return <Empty description='Nothing in cart 😀' />;
 

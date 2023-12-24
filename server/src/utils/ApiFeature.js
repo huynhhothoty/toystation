@@ -1,3 +1,4 @@
+const mongoose = require('mongoose');
 class ApiFeatures {
     constructor(myQuery, queryFields) {
         this.myQuery = myQuery;
@@ -16,7 +17,8 @@ class ApiFeatures {
             if (
                 key in queryFields &&
                 typeof queryFields[key] === 'string' &&
-                isNaN(queryFields[key])
+                isNaN(queryFields[key]) &&
+                !mongoose.Types.ObjectId.isValid(queryFields[key])
             ) {
                 queryFields[key] = {
                     $regex: new RegExp(queryFields[key], 'i'),

@@ -1,11 +1,11 @@
-import { changeCartUrl } from '../utils/api/apis';
+import { userUrl } from '../utils/api/apis';
 import customAxios from './CustomAxios';
 
 export async function changeCart({ userId, newCart }) {
     try {
         const res = await customAxios({
             method: 'patch',
-            url: `${changeCartUrl}/${userId}`,
+            url: `${userUrl}/${userId}`,
             data: {
                 cart: newCart,
             },

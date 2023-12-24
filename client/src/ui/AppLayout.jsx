@@ -16,7 +16,7 @@ export default function AppLayout() {
     return (
         <Layout className='flex h-screen flex-col'>
             <Affix offsetTop={0}>
-                <Header className='flex h-max flex-col border-[0.5px] border-solid py-[2px]'>
+                <Header className='flex h-max flex-col py-[2px]'>
                     <HeaderContent />
                 </Header>
             </Affix>
@@ -25,7 +25,7 @@ export default function AppLayout() {
                 <main className='container w-11/12 py-9'>
                     <Outlet />
                 </main>
-                <Footer className='border-[0.5px] border-solid'>
+                <Footer className=''>
                     <FooterContent />
                 </Footer>
             </Content>

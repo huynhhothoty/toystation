@@ -28,7 +28,7 @@ export default function PaymentMethod() {
     return (
         <Card>
             <Title level={3}>Payment Method</Title>
-            <Tabs items={items} />
+            <Tabs defaultActiveKey='' items={items} />
         </Card>
     );
 }
