@@ -1,6 +1,7 @@
 import { Card, Segmented, Spin } from 'antd';
 import { useGetUserOrder } from './useGetUserOrder';
 import { useEffect, useState } from 'react';
+import OrderTrackingItem from './OrderTrackingItem';
 
 // ['unconfirmed', 'on-going', 'completed', 'failed']
 
@@ -18,7 +19,6 @@ export default function Order() {
 
     if (isGettingOrder) return <Spin fullscreen />;
 
-    console.log(filterOrder);
     return (
         <>
             <Card className='mb-4'>
@@ -35,7 +35,11 @@ export default function Order() {
             </Card>
 
             <Card>
-                <h1>{orderStatus}</h1>
+                {filterOrder?.map((ele) => (
+                    <Card key={ele._id} className='mb-5'>
+                        <OrderTrackingItem order={ele} />
+                    </Card>
+                ))}
             </Card>
         </>
     );

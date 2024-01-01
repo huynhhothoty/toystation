@@ -52,7 +52,8 @@ const createAndSendToken = (user, statusCode, res) => {
         'email',
         '_id',
         'address',
-        'phone'
+        'phone',
+        'cart'
     );
     res.status(statusCode).send({
         status: 'ok',

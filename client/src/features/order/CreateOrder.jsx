@@ -25,7 +25,12 @@ export default function CreateOrder() {
                 </p>
             ),
             onOk: () => {
-                const idItemListCart = user.cart.map((ele) => ele.item._id);
+                const idItemListCart = user.cart.map((ele) => {
+                    return {
+                        numbers: ele.numbers,
+                        item: ele.item._id,
+                    };
+                });
                 createOrder(
                     { userId: user._id, cart: idItemListCart, address: user.address },
                     { onSuccess: () => navigate('/') }

@@ -9,21 +9,11 @@ export default function CartButton({ openLogin }) {
     const cartLength = user?.cart?.length ?? 0;
 
     return (
-        <Popover
-            placement='bottomRight'
-            title='Cart overview'
-            content={<CartOverview />}
-            trigger='hover'
-        >
+        <Popover placement='bottomRight' title='Cart overview' content={<CartOverview />}>
             <Badge count={cartLength}>
                 {isAuthenticated ? (
                     <Link to='/cart'>
-                        <Button
-                            className='border-2 border-black'
-                            size='large'
-                            shape='circle'
-                            icon={<ShoppingCartOutlined />}
-                        />
+                        <Button size='large' shape='circle' icon={<ShoppingCartOutlined />} />
                     </Link>
                 ) : (
                     <Button

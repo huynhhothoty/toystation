@@ -18,9 +18,9 @@ toyRouter
 
 toyRouter
     .route('/:id')
-    .patch(authorization('admin'), updateToy)
+    .patch(authentication, authorization('admin'), updateToy)
     .get(getOneToy)
-    .delete(authorization('admin'), deleteToy);
+    .delete(authentication, authorization('admin'), deleteToy);
 
 module.exports = {
     toyRouter,

@@ -1,4 +1,4 @@
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 import Home from './pages/Home';
 import Toy from './pages/Toy';
 import OrderPage from './pages/OrderPage';
@@ -13,6 +13,12 @@ import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import Account from './pages/Account';
 import ProtectRoute from './ui/ProtectRoute';
 import Order from './features/order/Order';
+import AppLayoutAdmin from './ui/AppLayoutAdmin';
+import DashBoard from './pages/admin/DashBoard';
+import OrderManage from './pages/admin/OrderManage';
+import ProductManage from './pages/admin/ProductManage';
+import AccountManage from './pages/admin/AccountManage';
+import OrderDetail from './features/admin/order/OrderDetail';
 
 const queryClient = new QueryClient({
     defaultOptions: {
@@ -45,6 +51,14 @@ function App() {
                                     <Route path='/order' element={<OrderPage />} />
                                     <Route path='/ordertracking' element={<Order />} />
                                 </Route>
+                            </Route>
+                            <Route path='/admin' element={<AppLayoutAdmin />}>
+                                <Route index element={<Navigate replace to='dashboard' />} />
+                                <Route path='dashboard' element={<DashBoard />} />
+                                <Route path='order' element={<OrderManage />} />
+                                <Route path='order/:orderId' element={<OrderDetail />} />
+                                <Route path='product' element={<ProductManage />} />
+                                <Route path='account' element={<AccountManage />} />
                             </Route>
                             <Route path='*' element={<PageNotFound />} />
                         </Routes>

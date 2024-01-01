@@ -28,6 +28,7 @@ import ForgetPassword from '../features/authentication/ForgetPassword';
 import CartButton from './CartButton';
 import { useUser } from '../features/account/useUser';
 import { useLogout } from '../features/authentication/useLogout';
+import MessageButton from './MessageButton';
 
 export default function HeaderContent() {
     const [openLogin, setOpenLogin] = useState(false);
@@ -119,6 +120,7 @@ export default function HeaderContent() {
 
             <Col span={5} offset={1}>
                 <Space size='large'>
+                    <MessageButton openLogin={handleOpenLogin} />
                     <CartButton openLogin={handleOpenLogin} />
                     <Dropdown
                         arrow
@@ -126,12 +128,7 @@ export default function HeaderContent() {
                         trigger={['click']}
                         placement='bottomRight'
                     >
-                        <Button
-                            className='bg- border-2 border-black'
-                            size='large'
-                            shape='circle'
-                            icon={<UserOutlined />}
-                        />
+                        <Button size='large' shape='circle' icon={<UserOutlined />} />
                     </Dropdown>
                 </Space>
                 <Text type='danger' className='ps-1'>
