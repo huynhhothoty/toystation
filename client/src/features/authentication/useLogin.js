@@ -1,9 +1,11 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { login as loginApi } from '../../services/userService';
 import { App as AntApp } from 'antd';
+import { useNavigate } from 'react-router-dom';
 
 export function useLogin() {
     const queryClient = useQueryClient();
+    const navigate = useNavigate();
     const { notification } = AntApp.useApp();
     const showSuccessNotice = (userName) => {
         notification.success({
@@ -21,8 +23,9 @@ export function useLogin() {
     const { mutate: login, isPending: isLoging } = useMutation({
         mutationFn: ({ email, password }) => loginApi({ email: email, password: password }),
         onSuccess: (data) => {
-            queryClient.setQueryData(['user'], data.data.user);
-            showSuccessNotice(data.data.user.name);
+            queryClient.setQueryData(['user'], data.user);
+            showSuccessNotice(data.user.name);
+            if (data.user.role === 'admin') navigate('/admin');
         },
         onError: (err) => {
             showFailedNotice(err.message);

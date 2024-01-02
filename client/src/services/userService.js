@@ -110,7 +110,7 @@ export async function login({ email, password }) {
             },
         });
 
-        return res;
+        return res.data;
     } catch (error) {
         const errMsg = error.response.data.message;
         throw new Error(errMsg);

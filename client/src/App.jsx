@@ -19,6 +19,7 @@ import OrderManage from './pages/admin/OrderManage';
 import ProductManage from './pages/admin/ProductManage';
 import AccountManage from './pages/admin/AccountManage';
 import OrderDetail from './features/admin/order/OrderDetail';
+import ProtectAdminRoute from './ui/ProtectAdminRoute';
 
 const queryClient = new QueryClient({
     defaultOptions: {
@@ -52,7 +53,14 @@ function App() {
                                     <Route path='/ordertracking' element={<Order />} />
                                 </Route>
                             </Route>
-                            <Route path='/admin' element={<AppLayoutAdmin />}>
+                            <Route
+                                path='/admin'
+                                element={
+                                    <ProtectAdminRoute>
+                                        <AppLayoutAdmin />
+                                    </ProtectAdminRoute>
+                                }
+                            >
                                 <Route index element={<Navigate replace to='dashboard' />} />
                                 <Route path='dashboard' element={<DashBoard />} />
                                 <Route path='order' element={<OrderManage />} />

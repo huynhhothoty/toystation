@@ -34,9 +34,9 @@ export default function FilterProduct() {
         console.log(value);
     };
     return (
-        <Card>
+        <Card bodyStyle={{ padding: '10px' }}>
             <Row align='middle' gutter={16}>
-                <Col span={4}>
+                <Col span={3} offset={1}>
                     <Cascader
                         placement='bottomLeft'
                         placeholder='Select branch'

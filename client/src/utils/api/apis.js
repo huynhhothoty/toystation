@@ -17,3 +17,6 @@ export const orderUrl = `${host}/order`;
 
 // toys
 export const toyUrl = `${host}/toy`;
+
+// report
+export const reportUrl = `${host}/report`;

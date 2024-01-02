@@ -57,7 +57,7 @@ export default function AppLayoutAdmin() {
                 />
             </Sider>
             <Layout className='ml-[200px]'>
-                <Content className='h-screen p-8'>
+                <Content className='min-h-screen p-8'>
                     <Outlet />
                 </Content>
             </Layout>

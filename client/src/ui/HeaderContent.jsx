@@ -1,4 +1,13 @@
 import {
+    InfoCircleOutlined,
+    LaptopOutlined,
+    LoginOutlined,
+    LogoutOutlined,
+    SearchOutlined,
+    SettingOutlined,
+    UserOutlined,
+} from '@ant-design/icons';
+import {
     Alert,
     App,
     Button,
@@ -11,24 +20,16 @@ import {
     Space,
     Typography,
 } from 'antd';
-const { Text } = Typography;
-import {
-    InfoCircleOutlined,
-    LoginOutlined,
-    LogoutOutlined,
-    SearchOutlined,
-    SettingOutlined,
-    UserOutlined,
-} from '@ant-design/icons';
 import { useState } from 'react';
-import LoginForm from '../features/authentication/LoginForm';
 import { Link, useNavigate } from 'react-router-dom';
-import RegisterForm from '../features/authentication/RegisterForm';
-import ForgetPassword from '../features/authentication/ForgetPassword';
-import CartButton from './CartButton';
 import { useUser } from '../features/account/useUser';
+import ForgetPassword from '../features/authentication/ForgetPassword';
+import LoginForm from '../features/authentication/LoginForm';
+import RegisterForm from '../features/authentication/RegisterForm';
 import { useLogout } from '../features/authentication/useLogout';
+import CartButton from './CartButton';
 import MessageButton from './MessageButton';
+const { Text } = Typography;
 
 export default function HeaderContent() {
     const [openLogin, setOpenLogin] = useState(false);
@@ -39,6 +40,24 @@ export default function HeaderContent() {
     const { user, isAuthenticated } = useUser();
     const { modal } = App.useApp();
     const { logout } = useLogout();
+    const itemsAuthAdmin = [
+        {
+            label: 'Admin Page',
+            key: '1',
+            icon: <LaptopOutlined />,
+            onClick: () => navigate('/admin'),
+        },
+        {
+            type: 'divider',
+        },
+        {
+            label: 'Logout',
+            key: '2',
+            icon: <LogoutOutlined />,
+            danger: true,
+            onClick: handleLogout,
+        },
+    ];
     const itemsWhenAuth = [
         {
             label: 'Account',
@@ -124,7 +143,13 @@ export default function HeaderContent() {
                     <CartButton openLogin={handleOpenLogin} />
                     <Dropdown
                         arrow
-                        menu={{ items: isAuthenticated ? itemsWhenAuth : itemsWhenNotAuth }}
+                        menu={{
+                            items: isAuthenticated
+                                ? user.role === 'admin'
+                                    ? itemsAuthAdmin
+                                    : itemsWhenAuth
+                                : itemsWhenNotAuth,
+                        }}
                         trigger={['click']}
                         placement='bottomRight'
                     >

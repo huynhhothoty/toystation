@@ -1,8 +1,11 @@
 import { FacebookOutlined } from '@ant-design/icons';
-import { Button, Col, Row, Typography } from 'antd';
+import { Button, Card, Col, Flex, Modal, Row, Typography } from 'antd';
+import { useState } from 'react';
 const { Title, Text } = Typography;
 
 export default function FooterContent() {
+    const [openPolicies, setOpenPolicies] = useState(false);
+
     return (
         <footer className='py-1 text-center'>
             <Row justify='center' align='middle'>
@@ -12,9 +15,7 @@ export default function FooterContent() {
                 </Col>
                 <Col span={7}>
                     <Title>Policies</Title>
-                    <Text>sample</Text>
-                    <Text>sample</Text>
-                    <Text>sample</Text>
+                    <Button onClick={() => setOpenPolicies(true)}>Read our policies</Button>
                 </Col>
                 <Col span={7}>
                     <Title>Contact me</Title>
@@ -28,6 +29,23 @@ export default function FooterContent() {
                     </Button>
                 </Col>
             </Row>
+            <Modal
+                centered
+                title='Policies'
+                open={openPolicies}
+                onCancel={() => setOpenPolicies(false)}
+                footer={null}
+            >
+                <Card>
+                    <h3>Return item</h3>
+                    <p>Item can be return in 10 days from delivery day.</p>
+                </Card>
+                <Flex className='mt-7' justify='end'>
+                    <Button onClick={() => setOpenPolicies(false)} type='primary'>
+                        OK
+                    </Button>
+                </Flex>
+            </Modal>
         </footer>
     );
 }
