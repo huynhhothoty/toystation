@@ -1,13 +1,8 @@
 {
-    "builds": [{ "src": "*.js", "use": "@vercel/node" }],
-    "routes": [
+    "rewrite": [
         {
-            "src": "/(.*)",
-            "dest": "src/index.js",
-            "methods": ["GET", "POST", "PUT", "PATCH", "DELETE"],
-            "headers": {
-                "Access-Control-Allow-Origin": "*"
-            }
+            "source": "/(.*)",
+            "destination": "/"
         }
     ]
 }
