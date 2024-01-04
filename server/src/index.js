@@ -14,7 +14,7 @@ dotenv.config();
 
 // config
 const corsOptions = {
-    origin: 'http://localhost:5173',
+    origin: 'https://toystation.vercel.app/',
     credentials: true, //access-control-allow-credentials:true
     optionSuccessStatus: 200,
 };
