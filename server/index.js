@@ -1,9 +1,9 @@
 const express = require('express');
-const { connectDatabase } = require('./configs/DBconfig');
-const { rootRouter } = require('./routes/index');
+const { connectDatabase } = require('./src/configs/DBconfig');
+const { rootRouter } = require('./src/routes/index');
 const dotenv = require('dotenv');
-const { errorHandler } = require('./middlewares/error/ErrorHandler');
-const { CustomError } = require('./utils/CustomError');
+const { errorHandler } = require('./src/middlewares/error/ErrorHandler');
+const { CustomError } = require('./src/utils/CustomError');
 const cookieParser = require('cookie-parser');
 const cors = require('cors');
 
