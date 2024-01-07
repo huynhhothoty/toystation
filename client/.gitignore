@@ -23,5 +23,3 @@ dist-ssr
 *.sln
 *.sw?
 
-# host use for local dev
-src/utils/api/host.js
