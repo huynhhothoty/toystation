@@ -18,7 +18,6 @@ export default function CartButton({ openLogin }) {
                 ) : (
                     <Button
                         onClick={() => openLogin()}
-                        className='border-2 border-black'
                         size='large'
                         shape='circle'
                         icon={<ShoppingCartOutlined />}

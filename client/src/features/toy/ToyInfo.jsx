@@ -1,4 +1,4 @@
-import { Button, Card, Divider, Spin, Tabs, Typography } from 'antd';
+import { Button, Card, Divider, Spin, Tabs, Tooltip, Typography } from 'antd';
 import { formatCurrency } from '../../utils/helpers';
 import { useState } from 'react';
 import NumCounter from '../../ui/NumCounter';
@@ -9,7 +9,7 @@ const { Title, Text } = Typography;
 
 export default function ToyInfo({ toy }) {
     const [numbers, setNumbers] = useState(1);
-    const { user } = useUser();
+    const { user, isAuthenticated } = useUser();
     const { changeCart, isChanging } = useChangeCart();
 
     function handleAddToCart() {
@@ -46,7 +46,7 @@ export default function ToyInfo({ toy }) {
         {
             key: '4',
             label: 'Brand',
-            children: 'Content of Tab Pane Brand',
+            children: toy.branch,
         },
     ];
     return (
@@ -54,18 +54,29 @@ export default function ToyInfo({ toy }) {
             <Card>
                 <Title>{toy.name}</Title>
                 <Divider />
-                <Text type='success'>{formatCurrency(toy.price)}</Text>
+                <Text className='text-lg font-bold' type='success'>
+                    {formatCurrency(toy.price)}
+                </Text>
+                <p className='text-sm italic'>{'*Remain: ' + toy.quantity}</p>
                 <Divider />
                 <NumCounter numbers={numbers} setNumbers={setNumbers} />
                 <div className='mt-10'>
-                    <Button
-                        onClick={() => handleAddToCart()}
-                        type='primary'
-                        size='large'
-                        icon={<ShoppingCartOutlined />}
+                    <Tooltip
+                        placement='top'
+                        title={
+                            isAuthenticated ? 'Add this toy to my cart' : 'Please login to add cart'
+                        }
                     >
-                        Add cart
-                    </Button>
+                        <Button
+                            disabled={!isAuthenticated}
+                            onClick={() => handleAddToCart()}
+                            type='primary'
+                            size='large'
+                            icon={<ShoppingCartOutlined />}
+                        >
+                            Add cart
+                        </Button>
+                    </Tooltip>
                 </div>
                 <Divider />
                 <Tabs tabBarGutter={80} defaultActiveKey='1' items={items} centered />

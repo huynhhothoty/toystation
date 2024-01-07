@@ -1,24 +1,33 @@
-import { Card, Carousel, Col, Image, Row, Spin, Typography } from 'antd';
+import { Button, Card, Carousel, Col, Image, Row, Spin } from 'antd';
 import { useToyDetail } from '../features/toy/useToyDetail';
 import ToyInfo from '../features/toy/ToyInfo';
-const { Title } = Typography;
+import { ArrowLeftOutlined } from '@ant-design/icons';
+import { useNavigate } from 'react-router-dom';
 
 export default function ToyDetail() {
     const { toyDetail, isLoading } = useToyDetail();
+    const navigate = useNavigate();
 
     return (
         <>
+            <Button
+                className='mb-4 ml-4'
+                type='primary'
+                size='large'
+                onClick={() => navigate(-1)}
+                icon={<ArrowLeftOutlined />}
+            >
+                Back
+            </Button>
             {isLoading ? (
                 <Spin />
             ) : (
-                <Row justify='space-between'>
+                <Row justify='space-between' align='middle'>
                     <Col span={12} className='ml-4'>
                         <Card>
-                            <Carousel autoplay autoplaySpeed={1000} dotPosition='bottom'>
-                                <div className='bg-red-50'>
-                                    <Image src={toyDetail?.image} className='max-w-[100%] ' />
-                                </div>
-                            </Carousel>
+                            <div className='flex items-center justify-center bg-red-50'>
+                                <Image src={toyDetail?.image} className='max-w-[100%] ' />
+                            </div>
                         </Card>
                     </Col>
                     <Col span={11}>
@@ -27,14 +36,9 @@ export default function ToyDetail() {
                 </Row>
             )}
 
-            <Title level={1} className='mb-5 mt-20 text-center'>
+            {/* <Title level={1} className='mb-5 mt-20 text-center'>
                 Relevant toy
-            </Title>
-            {/* <Row justify='space-evenly' gutter={4}>
-                {Array.from({ length: 4 }, (value, index) => index).map((ele) => (
-                    <ToyItem key={ele} span={5} />
-                ))}
-            </Row> */}
+            </Title> */}
         </>
     );
 }

@@ -130,10 +130,16 @@ export async function login({ email, password }) {
 }
 
 export async function getCurrentUser() {
+    const userToken = localStorage.getItem('user_token');
+
     try {
         const data = await customAxios({
             method: 'get',
             url: getCurUserUrl,
+            headers: {
+                Authorization: `Bearer ${userToken}`,
+                'Content-Type': 'application/json',
+            },
         });
 
         return data.data.user;
