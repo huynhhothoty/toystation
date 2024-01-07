@@ -6,7 +6,12 @@ const { filterObject } = require('../utils/filterObject');
 // const mongoose = require('mongoose');
 
 const getCurrentUser = async (req, res, next) => {
-    if (req.cookies.jwt && req.cookies.jwt !== 'logout') {
+    if (
+        req.headers.authorization &&
+        req.headers.authorization !== 'logout' &&
+        req.cookies.jwt &&
+        req.cookies.jwt !== 'logout'
+    ) {
         let decode;
         try {
             decode = jwt.verify(req.cookies.jwt, process.env.JWT_SECRET);

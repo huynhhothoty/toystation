@@ -2,6 +2,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { login as loginApi } from '../../services/userService';
 import { App as AntApp } from 'antd';
 import { useNavigate } from 'react-router-dom';
+import { useLocalStorageState } from '../../hooks/useLocalStorageState';
 
 export function useLogin() {
     const queryClient = useQueryClient();
@@ -26,6 +27,8 @@ export function useLogin() {
             queryClient.setQueryData(['user'], data.user);
             showSuccessNotice(data.user.name);
             if (data.user.role === 'admin') navigate('/admin');
+
+            localStorage.setItem('user_token', data.accessToken);
         },
         onError: (err) => {
             showFailedNotice(err.message);

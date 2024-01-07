@@ -12,6 +12,8 @@ import {
 } from '../utils/api/apis';
 
 export async function updatePassword({ oldPassword, newPassword }) {
+    const userToken = localStorage.getItem('user_token');
+
     try {
         const res = await customAxios({
             method: 'patch',
@@ -19,6 +21,10 @@ export async function updatePassword({ oldPassword, newPassword }) {
             data: {
                 oldPassword,
                 newPassword,
+            },
+            headers: {
+                Authorization: `Bearer ${userToken}`,
+                'Content-Type': 'application/json',
             },
         });
 
@@ -30,11 +36,17 @@ export async function updatePassword({ oldPassword, newPassword }) {
 }
 
 export async function updateUserInfo({ userId, updateInfo }) {
+    const userToken = localStorage.getItem('user_token');
+
     try {
         const res = await customAxios({
             method: 'patch',
             url: `${userUrl}/${userId}`,
             data: updateInfo,
+            headers: {
+                Authorization: `Bearer ${userToken}`,
+                'Content-Type': 'application/json',
+            },
         });
 
         return res.data;

@@ -17,6 +17,7 @@ export function useLogout() {
                 description: 'Logout successfully!',
             });
             queryClient.removeQueries();
+            localStorage.clear();
         },
         onError: () => {
             notification.error({
