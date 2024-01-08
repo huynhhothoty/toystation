@@ -1,44 +1,31 @@
 import { SearchOutlined } from '@ant-design/icons';
-import { Button, Card, Carousel, Col, Flex, Image, Row, Typography } from 'antd';
+import { Button, Card, Col, Flex, Image, Row, Spin, Typography } from 'antd';
 import Meta from 'antd/es/card/Meta';
 import { Link } from 'react-router-dom';
+import { useToys } from '../features/toy/useToys';
+import BannerCarousel from '../ui/BannerCarousel';
 const { Title } = Typography;
 
 export default function Home() {
+    const { toys, isLoading } = useToys();
+
+    // choose 6 first category
+    const categoryList = toys?.reduce((acc, cur) => {
+        if (cur.category && !acc.includes(cur.category) && acc.length < 6)
+            return [...acc, cur.category];
+        return acc;
+    }, []);
+
+    let toyOfCateList = [];
+    categoryList?.forEach((ele) => {
+        const temp = toys?.find((x) => x.category === ele);
+        if (ele) toyOfCateList.push(temp);
+    });
+
+    if (isLoading) return <Spin fullscreen />;
     return (
         <>
-            <Carousel autoplay autoplaySpeed={1500} className=''>
-                <div>
-                    <Link to='/toys'>
-                        <Image
-                            preview={false}
-                            className='w-[100%]'
-                            src='/carousel.png'
-                            alt='carousel'
-                        />
-                    </Link>
-                </div>
-                <div>
-                    <Link to='/toys'>
-                        <Image
-                            preview={false}
-                            className='w-[100%]'
-                            src='/carousel2.png'
-                            alt='carousel'
-                        />
-                    </Link>
-                </div>
-                <div>
-                    <Link to='/toys'>
-                        <Image
-                            preview={false}
-                            className='w-[100%]'
-                            src='/carousel3.png'
-                            alt='carousel'
-                        />
-                    </Link>
-                </div>
-            </Carousel>
+            <BannerCarousel />
 
             <Flex justify='center' align='center' className='mt-7'>
                 <Link to='/toys'>
@@ -56,15 +43,18 @@ export default function Home() {
 
             <Card className='mt-10'>
                 <Title className='mb-10 text-center'>What are you looking for?</Title>
-                <Row className='px-5' gutter={20}>
-                    {Array.from({ length: 6 }, (v, i) => i).map((ele) => (
-                        <Col key={ele} span={4}>
+                <Row className='px-5' gutter={16}>
+                    {toyOfCateList.map((ele) => (
+                        <Col key={ele._id} span={4}>
                             <Link to='/toys'>
-                                <Card
-                                    hoverable
-                                    cover={<Image preview={false} src='/sampleToy.png' />}
-                                >
-                                    <Meta title='Quiz' />
+                                <Card className='border-green-200' hoverable>
+                                    <Image
+                                        height={200}
+                                        width='100%'
+                                        preview={false}
+                                        src={ele.image}
+                                    />
+                                    <Meta className='text-center' title={ele.category} />
                                 </Card>
                             </Link>
                         </Col>
@@ -74,27 +64,22 @@ export default function Home() {
 
             <Card className='mt-10'>
                 <Title className='mb-10 text-center'>Best seller</Title>
-                <Row className='px-5' gutter={20}>
-                    <Col span={6}>
-                        <Card hoverable cover={<img alt='toy' src='/sampleToy.png' />}>
-                            <Meta title='Quiz' />
-                        </Card>
-                    </Col>
-                    <Col span={6}>
-                        <Card hoverable cover={<img alt='toy' src='/sampleToy.png' />}>
-                            <Meta title='Quiz' />
-                        </Card>
-                    </Col>
-                    <Col span={6}>
-                        <Card hoverable cover={<img alt='toy' src='/sampleToy.png' />}>
-                            <Meta title='Quiz' />
-                        </Card>
-                    </Col>
-                    <Col span={6}>
-                        <Card hoverable cover={<img alt='toy' src='/sampleToy.png' />}>
-                            <Meta title='Quiz' />
-                        </Card>
-                    </Col>
+                <Row className='px-5' gutter={24}>
+                    {toyOfCateList?.slice(0, 4).map((ele) => (
+                        <Col key={ele._id} span={6}>
+                            <Link to='/toys'>
+                                <Card className='border-red-200' hoverable>
+                                    <Image
+                                        height={300}
+                                        width='100%'
+                                        preview={false}
+                                        src={ele.image}
+                                    />
+                                    <Meta className='text-center' title={ele.name} />
+                                </Card>
+                            </Link>
+                        </Col>
+                    ))}
                 </Row>
             </Card>
         </>

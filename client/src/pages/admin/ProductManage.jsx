@@ -1,11 +1,11 @@
-import { Button, Card, Flex, Image, Input, Modal, Space, Table, Tooltip } from 'antd';
 import { EditOutlined, PlusOutlined, SearchOutlined } from '@ant-design/icons';
-import { useToys } from '../../features/toy/useToys';
-import { formatCurrency } from '../../utils/helpers';
+import { Button, Card, Flex, Input, Modal, Space, Table, Tooltip } from 'antd';
 import { useState } from 'react';
-import ProductDetailForm from '../../features/admin/product/ProductDetailForm';
 import ProductAddForm from '../../features/admin/product/ProductAddForm';
+import ProductDetailForm from '../../features/admin/product/ProductDetailForm';
+import { useToys } from '../../features/toy/useToys';
 import RefreshButton from '../../ui/RefreshButton';
+import { formatCurrency } from '../../utils/helpers';
 
 function getSearchPropsInTable(dataIndex) {
     return {
@@ -61,17 +61,22 @@ export default function ProductManage() {
             ...getSearchPropsInTable('_id'),
         },
         {
-            title: 'Image',
-            dataIndex: 'image',
-            width: '6%',
-            render: (ele) => <Image className='' src={ele} />,
-        },
-        {
             title: 'Name',
             dataIndex: 'name',
             width: '25%',
-            render: (ele) => <p className='font-bold'>{ele}</p>,
+            ellipsis: true,
+            render: (ele) => (
+                <Tooltip placement='topLeft' title={ele}>
+                    <p className='font-bold'>{ele}</p>
+                </Tooltip>
+            ),
             ...getSearchPropsInTable('name'),
+        },
+        {
+            title: 'Category',
+            dataIndex: 'category',
+            width: '10%',
+            ...getSearchPropsInTable('category'),
         },
         {
             title: 'Quantity',

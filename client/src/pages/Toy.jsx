@@ -1,20 +1,17 @@
-import { Empty, Row, Spin, Typography } from 'antd';
+import { Empty, Row, Spin } from 'antd';
 import FilterProduct from '../features/product/FilterProduct';
 import ToyItem from '../features/toy/ToyItem';
 import { useToys } from '../features/toy/useToys';
-const { Title } = Typography;
 
 export default function Toy() {
     const { toys, isLoading } = useToys();
 
     return (
         <div className='flex flex-col'>
-            {/* <Title className='mb-5'>Filter</Title>
-            <div className='sticky top-1 z-50 p-0'>
+            {/* <div className='sticky top-1 z-50 mb-3 p-0'>
                 <FilterProduct />
             </div> */}
 
-            <Title className='my-5'>Product</Title>
             {toys?.length === 0 ? (
                 <Empty description='No toy match your selection!' />
             ) : (

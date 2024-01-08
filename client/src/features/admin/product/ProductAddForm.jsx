@@ -1,37 +1,26 @@
 import { UploadOutlined } from '@ant-design/icons';
-import {
-    Button,
-    Col,
-    Flex,
-    Form,
-    Input,
-    InputNumber,
-    Popover,
-    Row,
-    Select,
-    Spin,
-    Upload,
-} from 'antd';
+import { AutoComplete, Button, Col, Flex, Form, Input, InputNumber, Row, Spin, Upload } from 'antd';
 
+import { useToys } from '../../toy/useToys';
 import { useCreateToy } from './useCreateToy';
 
 export default function ProductDetailForm({ setOpenAdd }) {
     const [form] = Form.useForm();
     const { addToy, isAddingToy } = useCreateToy();
+    const { toys } = useToys();
 
     const normFile = (e) => {
         const file = e.fileList && e.fileList.length > 0 ? e.fileList : null;
         return file;
     };
 
-    const addCateContent = (
-        <Flex gap={10}>
-            <Input size='small' placeholder='New category...' />
-            <Button size='small' type='primary'>
-                OK
-            </Button>
-        </Flex>
-    );
+    const categoryList = toys?.reduce((acc, cur) => {
+        if (cur.category && !acc.includes(cur.category)) return [...acc, cur.category];
+        return acc;
+    }, []);
+    let selectCateList = categoryList.map((ele) => {
+        return { value: ele, label: ele };
+    });
 
     function onFinish(values) {
         addToy(
@@ -40,6 +29,7 @@ export default function ProductDetailForm({ setOpenAdd }) {
                 onSuccess: () => setOpenAdd(false),
             }
         );
+        // console.log(values);
     }
 
     return (
@@ -85,33 +75,17 @@ export default function ProductDetailForm({ setOpenAdd }) {
                     <InputNumber />
                 </Form.Item>
 
-                <Form.Item label='Category'>
-                    <Row gutter={16}>
-                        <Col span={12}>
-                            <Form.Item
-                                name='category'
-                                noStyle
-                                rules={[
-                                    {
-                                        required: true,
-                                        message: 'Please input product category',
-                                    },
-                                ]}
-                            >
-                                <Select
-                                    options={[
-                                        { value: 'c1', label: 'Quiz' },
-                                        { value: 'c2', label: 'Art toy' },
-                                    ]}
-                                />
-                            </Form.Item>
-                        </Col>
-                        <Col span={8}>
-                            <Popover placement='bottom' trigger='click' content={addCateContent}>
-                                <Button>Add new category</Button>
-                            </Popover>
-                        </Col>
-                    </Row>
+                <Form.Item
+                    label='Category'
+                    name='category'
+                    rules={[
+                        {
+                            required: true,
+                            message: 'Please input product category',
+                        },
+                    ]}
+                >
+                    <AutoComplete className='w-[50%!important]' options={selectCateList} />
                 </Form.Item>
 
                 <Form.Item
@@ -124,7 +98,13 @@ export default function ProductDetailForm({ setOpenAdd }) {
                         },
                     ]}
                 >
-                    <InputNumber min={0} step={100} />
+                    <InputNumber
+                        className='w-[50%!important]'
+                        formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                        parser={(value) => value.replace(/\$\s?|(,*)/g, '')}
+                        min={0}
+                        step={100}
+                    />
                 </Form.Item>
                 <Form.Item
                     label='Description'

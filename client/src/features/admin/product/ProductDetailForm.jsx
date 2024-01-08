@@ -1,17 +1,39 @@
-import { Button, Col, Flex, Form, Image, Input, InputNumber, Row, Spin, Upload } from 'antd';
 import { UploadOutlined } from '@ant-design/icons';
+import {
+    AutoComplete,
+    Button,
+    Col,
+    Flex,
+    Form,
+    Image,
+    Input,
+    InputNumber,
+    Row,
+    Spin,
+    Upload,
+} from 'antd';
 import { useToyDetail } from '../../toy/useToyDetail';
+import { useToys } from '../../toy/useToys';
 import { useEditToy } from './useEditToy';
 
 export default function ProductDetailForm({ toyId, setOpenForm }) {
     const { toyDetail, isLoading } = useToyDetail(toyId);
     const { editToy, isEditingToy } = useEditToy();
     const [form] = Form.useForm();
+    const { toys } = useToys();
 
     const normFile = (e) => {
         const file = e.fileList && e.fileList.length > 0 ? e.fileList : null;
         return file;
     };
+
+    const categoryList = toys?.reduce((acc, cur) => {
+        if (cur.category && !acc.includes(cur.category)) return [...acc, cur.category];
+        return acc;
+    }, []);
+    let selectCateList = categoryList.map((ele) => {
+        return { value: ele, label: ele };
+    });
 
     let updateValue = {};
     function onValueChange(changedValue) {
@@ -77,6 +99,19 @@ export default function ProductDetailForm({ toyId, setOpenForm }) {
                 </Form.Item>
 
                 <Form.Item
+                    label='Category'
+                    name='category'
+                    rules={[
+                        {
+                            required: true,
+                            message: 'Please input product category',
+                        },
+                    ]}
+                >
+                    <AutoComplete className='w-[50%!important]' options={selectCateList} />
+                </Form.Item>
+
+                <Form.Item
                     label='Price'
                     name='price'
                     rules={[
@@ -86,7 +121,13 @@ export default function ProductDetailForm({ toyId, setOpenForm }) {
                         },
                     ]}
                 >
-                    <InputNumber min={0} />
+                    <InputNumber
+                        className='w-[50%!important]'
+                        formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                        parser={(value) => value.replace(/\$\s?|(,*)/g, '')}
+                        min={0}
+                        step={100}
+                    />
                 </Form.Item>
                 <Form.Item
                     label='Description'
