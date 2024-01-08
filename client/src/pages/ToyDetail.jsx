@@ -1,8 +1,8 @@
-import { Button, Card, Carousel, Col, Image, Row, Spin } from 'antd';
-import { useToyDetail } from '../features/toy/useToyDetail';
-import ToyInfo from '../features/toy/ToyInfo';
 import { ArrowLeftOutlined } from '@ant-design/icons';
+import { Button, Card, Col, Image, Row, Spin } from 'antd';
 import { useNavigate } from 'react-router-dom';
+import ToyInfo from '../features/toy/ToyInfo';
+import { useToyDetail } from '../features/toy/useToyDetail';
 
 export default function ToyDetail() {
     const { toyDetail, isLoading } = useToyDetail();

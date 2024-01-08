@@ -1,5 +1,17 @@
 import { UploadOutlined } from '@ant-design/icons';
-import { Button, Col, Flex, Form, Input, InputNumber, Row, Spin, Upload } from 'antd';
+import {
+    Button,
+    Col,
+    Flex,
+    Form,
+    Input,
+    InputNumber,
+    Popover,
+    Row,
+    Select,
+    Spin,
+    Upload,
+} from 'antd';
 
 import { useCreateToy } from './useCreateToy';
 
@@ -11,6 +23,15 @@ export default function ProductDetailForm({ setOpenAdd }) {
         const file = e.fileList && e.fileList.length > 0 ? e.fileList : null;
         return file;
     };
+
+    const addCateContent = (
+        <Flex gap={10}>
+            <Input size='small' placeholder='New category...' />
+            <Button size='small' type='primary'>
+                OK
+            </Button>
+        </Flex>
+    );
 
     function onFinish(values) {
         addToy(
@@ -51,7 +72,6 @@ export default function ProductDetailForm({ setOpenAdd }) {
                 >
                     <Input />
                 </Form.Item>
-
                 <Form.Item
                     label='Quantity'
                     name='quantity'
@@ -63,6 +83,35 @@ export default function ProductDetailForm({ setOpenAdd }) {
                     ]}
                 >
                     <InputNumber />
+                </Form.Item>
+
+                <Form.Item label='Category'>
+                    <Row gutter={16}>
+                        <Col span={12}>
+                            <Form.Item
+                                name='category'
+                                noStyle
+                                rules={[
+                                    {
+                                        required: true,
+                                        message: 'Please input product category',
+                                    },
+                                ]}
+                            >
+                                <Select
+                                    options={[
+                                        { value: 'c1', label: 'Quiz' },
+                                        { value: 'c2', label: 'Art toy' },
+                                    ]}
+                                />
+                            </Form.Item>
+                        </Col>
+                        <Col span={8}>
+                            <Popover placement='bottom' trigger='click' content={addCateContent}>
+                                <Button>Add new category</Button>
+                            </Popover>
+                        </Col>
+                    </Row>
                 </Form.Item>
 
                 <Form.Item
@@ -89,7 +138,6 @@ export default function ProductDetailForm({ setOpenAdd }) {
                 >
                     <Input.TextArea />
                 </Form.Item>
-
                 <Form.Item
                     label='Age'
                     name='age'
@@ -103,12 +151,12 @@ export default function ProductDetailForm({ setOpenAdd }) {
                     <InputNumber min={1} />
                 </Form.Item>
                 <Form.Item
-                    label='Branch'
+                    label='Brand'
                     name='branch'
                     rules={[
                         {
                             required: true,
-                            message: 'Dont empty product branch!',
+                            message: 'Dont empty product brand!',
                         },
                     ]}
                 >
@@ -126,7 +174,6 @@ export default function ProductDetailForm({ setOpenAdd }) {
                 >
                     <Input />
                 </Form.Item>
-
                 <Row justify='start' align='middle'>
                     <Col offset={6}>
                         <Form.Item
@@ -155,7 +202,6 @@ export default function ProductDetailForm({ setOpenAdd }) {
                         </Form.Item>
                     </Col>
                 </Row>
-
                 <Flex className='my-4 items-center justify-end'>
                     <Form.Item>
                         <Button size='large' type='primary' htmlType='submit'>

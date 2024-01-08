@@ -15,10 +15,11 @@ const toySchema = new mongoose.Schema({
     },
     image: {
         type: String,
-        default:
-            'https://ocgrkzagggmeexxbnmfz.supabase.co/storage/v1/object/public/avatars/sampleToy.png',
     },
     description: {
+        type: String,
+    },
+    category: {
         type: String,
     },
     starRating: {

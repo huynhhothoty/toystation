@@ -20,7 +20,7 @@ export default function Toy() {
             ) : (
                 <Row gutter={16}>
                     {isLoading ? (
-                        <Spin size='large' />
+                        <Spin size='large' fullscreen />
                     ) : toys.length > 0 ? (
                         toys.map((toy) => <ToyItem key={toy._id} span={6} toy={toy} />)
                     ) : (

@@ -52,7 +52,7 @@ export default function OrderManage() {
     const [tableParams, setTableParams] = useState({
         pagination: {
             current: 1,
-            pageSize: 7,
+            pageSize: 6,
         },
     });
 
@@ -136,7 +136,7 @@ export default function OrderManage() {
                     <RefreshButton />
                     <Segmented
                         size='large'
-                        defaultValue={'all'}
+                        defaultValue={searchParams.get('status') ?? 'all'}
                         onChange={(value) => handleOnChange(value)}
                         options={[
                             { label: 'All', value: 'all' },

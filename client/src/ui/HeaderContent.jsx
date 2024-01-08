@@ -139,7 +139,7 @@ export default function HeaderContent() {
 
             <Col span={5} offset={1}>
                 <Space size='large'>
-                    <MessageButton openLogin={handleOpenLogin} />
+                    {/* <MessageButton openLogin={handleOpenLogin} /> */}
                     <CartButton openLogin={handleOpenLogin} />
                     <Dropdown
                         arrow

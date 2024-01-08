@@ -8,7 +8,7 @@ import useChangeOrder from './useChangeOrder';
 
 function nextStatus(status) {
     if (status === 'unconfirmed') return 'on-going';
-    if (status === 'on-going') return 'success';
+    if (status === 'on-going') return 'completed';
 }
 
 const columns = [

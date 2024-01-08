@@ -1,4 +1,6 @@
 const { Schema, model } = require('mongoose');
+const { CustomError } = require('../utils/CustomError');
+const { Toy } = require('../models/toyModel');
 
 const orderSchema = new Schema(
     {
@@ -64,7 +66,13 @@ const orderSchema = new Schema(
 // middlewares
 orderSchema.pre('save', async function (next) {
     await this.populate([{ path: 'itemList.item' }, { path: 'dealList.item' }]);
-    const orderItemList = this.itemList.length > 0 ? this.itemList : this.dealList;
+    const orderItemList = this.itemList;
+
+    orderItemList.forEach((ele) => {
+        if (ele.item.quantity <= ele.numbers)
+            return next(new CustomError(`${ele.item.name} has sold out!`));
+    });
+
     this.listSnapshot = orderItemList.map((ele) => ele.toObject());
     this.totalPrice = this.listSnapshot.reduce(
         (acc, cur) => acc + cur.numbers * cur.item.price,
@@ -72,6 +80,18 @@ orderSchema.pre('save', async function (next) {
     );
 
     next();
+});
+
+orderSchema.post('save', async function (document) {
+    for (let i = 0; i < document.itemList.length; i++) {
+        const item = document.itemList[i];
+
+        const updateToy = await Toy.findById(item.item);
+        if (updateToy) {
+            updateToy.quantity = updateToy.quantity - item.numbers;
+            await updateToy.save();
+        }
+    }
 });
 //
 const Order = model('Order', orderSchema);
