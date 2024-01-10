@@ -3,7 +3,6 @@ import { getCurrentUser } from '../../services/userService';
 
 export function useUser() {
     const userToken = window.localStorage.getItem('user_token') ?? '';
-    console.log(userToken);
     const { data: user, isLoading } = useQuery({
         queryKey: ['user'],
         queryFn: () => getCurrentUser(userToken),
