@@ -6,15 +6,10 @@ const { filterObject } = require('../utils/filterObject');
 // const mongoose = require('mongoose');
 
 const getCurrentUser = async (req, res, next) => {
-    if (
-        req.headers.authorization &&
-        req.headers.authorization !== 'logout' &&
-        req.cookies.jwt &&
-        req.cookies.jwt !== 'logout'
-    ) {
+    if (req.headers.authorization) {
         let decode;
         try {
-            decode = jwt.verify(req.cookies.jwt, process.env.JWT_SECRET);
+            decode = jwt.verify(req.headers.authorization, process.env.JWT_SECRET);
         } catch (error) {
             return next(
                 new CustomError('Invalid or Expired token, please login again', 401)

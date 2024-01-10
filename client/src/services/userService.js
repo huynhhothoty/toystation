@@ -140,8 +140,6 @@ export async function getCurrentUser(userToken) {
             },
         });
 
-        console.log(data);
-
         return data.data.user;
     } catch (error) {
         return null;
