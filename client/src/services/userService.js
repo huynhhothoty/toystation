@@ -129,9 +129,7 @@ export async function login({ email, password }) {
     }
 }
 
-export async function getCurrentUser() {
-    const userToken = localStorage.getItem('user_token');
-
+export async function getCurrentUser(userToken) {
     try {
         const data = await customAxios({
             method: 'get',

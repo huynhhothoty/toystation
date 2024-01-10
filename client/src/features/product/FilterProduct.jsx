@@ -82,10 +82,10 @@ export default function FilterProduct() {
     const { categoryList, brandList } = useGetFilterInfo();
     const navigate = useNavigate();
 
-    const cateSelectList = categoryList.map((ele) => {
+    const cateSelectList = categoryList?.map((ele) => {
         return { value: ele, label: ele };
     });
-    const brandSelectList = brandList.map((ele) => {
+    const brandSelectList = brandList?.map((ele) => {
         return { value: ele, label: ele };
     });
 
