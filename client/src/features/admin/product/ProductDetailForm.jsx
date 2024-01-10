@@ -12,26 +12,25 @@ import {
     Spin,
     Upload,
 } from 'antd';
+import { useGetFilterInfo } from '../../../hooks/useGetFilterInfo';
 import { useToyDetail } from '../../toy/useToyDetail';
-import { useToys } from '../../toy/useToys';
 import { useEditToy } from './useEditToy';
 
 export default function ProductDetailForm({ toyId, setOpenForm }) {
     const { toyDetail, isLoading } = useToyDetail(toyId);
     const { editToy, isEditingToy } = useEditToy();
     const [form] = Form.useForm();
-    const { toys } = useToys();
 
     const normFile = (e) => {
         const file = e.fileList && e.fileList.length > 0 ? e.fileList : null;
         return file;
     };
 
-    const categoryList = toys?.reduce((acc, cur) => {
-        if (cur.category && !acc.includes(cur.category)) return [...acc, cur.category];
-        return acc;
-    }, []);
-    let selectCateList = categoryList.map((ele) => {
+    const { categoryList, brandList } = useGetFilterInfo();
+    const selectCateList = categoryList.map((ele) => {
+        return { value: ele, label: ele };
+    });
+    const brandSelectList = brandList.map((ele) => {
         return { value: ele, label: ele };
     });
 
@@ -164,7 +163,7 @@ export default function ProductDetailForm({ toyId, setOpenForm }) {
                         },
                     ]}
                 >
-                    <Input />
+                    <AutoComplete className='w-[50%!important]' options={brandSelectList} />
                 </Form.Item>
                 <Form.Item
                     label='Origin'

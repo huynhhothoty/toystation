@@ -6,15 +6,12 @@ export function useToys() {
     const [searchParams] = useSearchParams();
     let filter = {};
 
-    const toyName = searchParams.get('toyname');
-    if (toyName?.length > 0) {
-        filter = {
-            name: toyName,
-        };
+    for (let entry of searchParams.entries()) {
+        filter = { ...filter, [entry[0]]: entry[1] };
     }
 
     const { data: toys, isLoading } = useQuery({
-        queryKey: ['toys', toyName],
+        queryKey: ['toys', filter],
         queryFn: () => getToys(filter),
     });
 

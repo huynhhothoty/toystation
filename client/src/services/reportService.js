@@ -1,13 +1,13 @@
 import { reportUrl } from '../utils/api/apis';
 import customAxios from './CustomAxios';
 
-export async function getOverallStatistic() {
+export async function getOverallStatistic(numDay) {
     const userToken = localStorage.getItem('user_token');
 
     try {
         const res = await customAxios({
             method: 'get',
-            url: reportUrl,
+            url: `${reportUrl}?numDay=${numDay}`,
             headers: {
                 Authorization: `Bearer ${userToken}`,
                 'Content-Type': 'application/json',

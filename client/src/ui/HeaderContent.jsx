@@ -132,7 +132,7 @@ export default function HeaderContent() {
                     placeholder='Explore some wonderful toys...'
                     size='large'
                     onPressEnter={(e) => {
-                        navigate(`/toys?toyname=${e.target.value}`);
+                        navigate(`/toys?name=${e.target.value}`);
                     }}
                 />
             </Col>

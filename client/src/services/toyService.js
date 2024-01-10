@@ -8,7 +8,7 @@ export async function getToys(filter) {
         if (Object.keys(filter).length > 0) {
             mainUrl += '?';
             for (const key in filter) {
-                mainUrl += `${key}=${filter[key]}`;
+                mainUrl += `${key}=${filter[key]}&`;
             }
         }
 

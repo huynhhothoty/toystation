@@ -1,4 +1,4 @@
-import { Card, Col, Flex, Row, Segmented, Spin, Statistic } from 'antd';
+import { Card, Col, Flex, Row, Segmented, Spin, Statistic, Tooltip } from 'antd';
 import RefreshButton from '../../ui/RefreshButton';
 import { useReport } from '../../features/admin/dashboard/useReport';
 import { loadingMsg } from '../../utils/messages';
@@ -11,9 +11,11 @@ import {
 } from '@ant-design/icons';
 import { formatCurrency } from '../../utils/helpers';
 import SalesChart from '../../features/admin/dashboard/SalesChart';
+import { useSearchParams } from 'react-router-dom';
 
 export default function DashBoard() {
     const { report, isCalculating } = useReport();
+    const [searchParams, setSearchParams] = useSearchParams();
     return (
         <Spin spinning={isCalculating} tip={loadingMsg} size='large'>
             <Card>
@@ -22,16 +24,18 @@ export default function DashBoard() {
                     <Flex justify='end' gap={20}>
                         <RefreshButton />
                         <Segmented
+                            value={searchParams.get('numDay') ?? 'all'}
                             size='large'
                             defaultValue='all'
                             onChange={(value) => {
-                                console.log(value);
+                                searchParams.set('numDay', value);
+                                setSearchParams(searchParams);
                             }}
                             options={[
                                 { label: 'All', value: 'all' },
                                 { label: 'Last 7 days', value: '7' },
-                                { label: 'Last 30 days', value: '30' },
-                                { label: 'Last 365 days', value: '365' },
+                                { label: 'Last 28 days', value: '28' },
+                                { label: 'Last 364 days', value: '364' },
                             ]}
                         />
                     </Flex>
@@ -39,26 +43,30 @@ export default function DashBoard() {
             </Card>
             <Row gutter={16} className='my-5 text-center'>
                 <Col span={3}>
-                    <Card>
-                        <Statistic title='Total Client' value={report?.numbersClient} />
-                    </Card>
+                    <Tooltip title='All times statistic'>
+                        <Card className='border-red-500'>
+                            <Statistic title='Total Client' value={report?.numbersClient} />
+                        </Card>
+                    </Tooltip>
                 </Col>
                 <Col span={3}>
-                    <Card>
-                        <Statistic title='Total Product' value={report?.numbersToy} />
-                    </Card>
+                    <Tooltip title='All times statistic'>
+                        <Card className='border-red-500'>
+                            <Statistic title='Total Product' value={report?.numbersToy} />
+                        </Card>
+                    </Tooltip>
                 </Col>
                 <Col span={12}>
                     <Card>
                         <Flex justify='space-evenly' align='center' gap={10}>
-                            <Statistic title='Order' value={report?.numbersOrder} />
+                            <Statistic title='Order' value={report?.totalNumOrder} />
                             <Statistic
                                 valueStyle={{
                                     color: 'blue',
                                 }}
                                 prefix={<InfoCircleOutlined />}
                                 title='Unconfirmed'
-                                value={report?.orderStatusCount.unconfirmed}
+                                value={report?.totalOrderStatus?.unconfirmed}
                             />
                             <Statistic
                                 valueStyle={{
@@ -66,7 +74,7 @@ export default function DashBoard() {
                                 }}
                                 prefix={<SyncOutlined />}
                                 title='On going'
-                                value={report?.orderStatusCount['on-going']}
+                                value={report?.totalOrderStatus?.['on-going']}
                             />
                             <Statistic
                                 valueStyle={{
@@ -74,7 +82,7 @@ export default function DashBoard() {
                                 }}
                                 prefix={<CheckCircleOutlined />}
                                 title='Success'
-                                value={report?.orderStatusCount.completed}
+                                value={report?.totalOrderStatus?.completed}
                             />
                             <Statistic
                                 valueStyle={{
@@ -82,7 +90,7 @@ export default function DashBoard() {
                                 }}
                                 prefix={<CloseCircleOutlined />}
                                 title='Failed'
-                                value={report?.orderStatusCount.failed}
+                                value={report?.totalOrderStatus?.failed}
                             />
                         </Flex>
                     </Card>
@@ -95,13 +103,13 @@ export default function DashBoard() {
                             }}
                             prefix={<MoneyCollectOutlined />}
                             title='Total Revenue'
-                            value={formatCurrency(report?.revenue)}
+                            value={formatCurrency(report?.totalRevenue)}
                         />
                     </Card>
                 </Col>
             </Row>
 
-            <SalesChart />
+            <SalesChart data={report?.detail} />
         </Spin>
     );
 }

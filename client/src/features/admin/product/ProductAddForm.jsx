@@ -1,24 +1,23 @@
 import { UploadOutlined } from '@ant-design/icons';
 import { AutoComplete, Button, Col, Flex, Form, Input, InputNumber, Row, Spin, Upload } from 'antd';
 
-import { useToys } from '../../toy/useToys';
+import { useGetFilterInfo } from '../../../hooks/useGetFilterInfo';
 import { useCreateToy } from './useCreateToy';
 
 export default function ProductDetailForm({ setOpenAdd }) {
     const [form] = Form.useForm();
     const { addToy, isAddingToy } = useCreateToy();
-    const { toys } = useToys();
 
     const normFile = (e) => {
         const file = e.fileList && e.fileList.length > 0 ? e.fileList : null;
         return file;
     };
 
-    const categoryList = toys?.reduce((acc, cur) => {
-        if (cur.category && !acc.includes(cur.category)) return [...acc, cur.category];
-        return acc;
-    }, []);
-    let selectCateList = categoryList.map((ele) => {
+    const { categoryList, brandList } = useGetFilterInfo();
+    const selectCateList = categoryList.map((ele) => {
+        return { value: ele, label: ele };
+    });
+    const brandSelectList = brandList.map((ele) => {
         return { value: ele, label: ele };
     });
 
@@ -140,7 +139,7 @@ export default function ProductDetailForm({ setOpenAdd }) {
                         },
                     ]}
                 >
-                    <Input />
+                    <AutoComplete className='w-[50%!important]' options={brandSelectList} />
                 </Form.Item>
                 <Form.Item
                     label='Origin'

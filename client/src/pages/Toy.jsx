@@ -8,9 +8,9 @@ export default function Toy() {
 
     return (
         <div className='flex flex-col'>
-            {/* <div className='sticky top-1 z-50 mb-3 p-0'>
+            <div className='sticky top-1 z-50 mb-3 p-0'>
                 <FilterProduct />
-            </div> */}
+            </div>
 
             {toys?.length === 0 ? (
                 <Empty description='No toy match your selection!' />

@@ -2,19 +2,16 @@ import { SearchOutlined } from '@ant-design/icons';
 import { Button, Card, Col, Flex, Image, Row, Spin, Typography } from 'antd';
 import Meta from 'antd/es/card/Meta';
 import { Link } from 'react-router-dom';
-import { useToys } from '../features/toy/useToys';
 import BannerCarousel from '../ui/BannerCarousel';
+import { useAllToys } from '../features/toy/useAllToys';
+import { useGetFilterInfo } from '../hooks/useGetFilterInfo';
 const { Title } = Typography;
 
 export default function Home() {
-    const { toys, isLoading } = useToys();
+    const { toys, isLoading } = useAllToys();
 
     // choose 6 first category
-    const categoryList = toys?.reduce((acc, cur) => {
-        if (cur.category && !acc.includes(cur.category) && acc.length < 6)
-            return [...acc, cur.category];
-        return acc;
-    }, []);
+    const { categoryList } = useGetFilterInfo();
 
     let toyOfCateList = [];
     categoryList?.forEach((ele) => {
@@ -22,9 +19,8 @@ export default function Home() {
         if (ele) toyOfCateList.push(temp);
     });
 
-    if (isLoading) return <Spin fullscreen />;
     return (
-        <>
+        <Spin spinning={isLoading}>
             <BannerCarousel />
 
             <Flex justify='center' align='center' className='mt-7'>
@@ -45,16 +41,16 @@ export default function Home() {
                 <Title className='mb-10 text-center'>What are you looking for?</Title>
                 <Row className='px-5' gutter={16}>
                     {toyOfCateList.map((ele) => (
-                        <Col key={ele._id} span={4}>
+                        <Col key={ele?._id} span={4}>
                             <Link to='/toys'>
                                 <Card className='border-green-200' hoverable>
                                     <Image
                                         height={200}
                                         width='100%'
                                         preview={false}
-                                        src={ele.image}
+                                        src={ele?.image}
                                     />
-                                    <Meta className='text-center' title={ele.category} />
+                                    <Meta className='text-center' title={ele?.category} />
                                 </Card>
                             </Link>
                         </Col>
@@ -66,22 +62,22 @@ export default function Home() {
                 <Title className='mb-10 text-center'>Best seller</Title>
                 <Row className='px-5' gutter={24}>
                     {toyOfCateList?.slice(0, 4).map((ele) => (
-                        <Col key={ele._id} span={6}>
+                        <Col key={ele?._id} span={6}>
                             <Link to='/toys'>
                                 <Card className='border-red-200' hoverable>
                                     <Image
                                         height={300}
                                         width='100%'
                                         preview={false}
-                                        src={ele.image}
+                                        src={ele?.image}
                                     />
-                                    <Meta className='text-center' title={ele.name} />
+                                    <Meta className='text-center' title={ele?.name} />
                                 </Card>
                             </Link>
                         </Col>
                     ))}
                 </Row>
             </Card>
-        </>
+        </Spin>
     );
 }
