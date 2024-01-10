@@ -6,10 +6,13 @@ const { filterObject } = require('../utils/filterObject');
 // const mongoose = require('mongoose');
 
 const getCurrentUser = async (req, res, next) => {
+    let token;
     if (req.headers.authorization) {
         let decode;
+        token = req.headers.authorization.split(' ')[1];
+
         try {
-            decode = jwt.verify(req.headers.authorization, process.env.JWT_SECRET);
+            decode = jwt.verify(token, process.env.JWT_SECRET);
         } catch (error) {
             return next(
                 new CustomError('Invalid or Expired token, please login again', 401)
