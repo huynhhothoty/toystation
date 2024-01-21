@@ -156,7 +156,7 @@ export default function HeaderContent() {
                         <Button size='large' shape='circle' icon={<UserOutlined />} />
                     </Dropdown>
                 </Space>
-                <Text type='danger' className='ps-1'>
+                <Text type='danger' className='ps-2'>
                     {isAuthenticated ? user.name : ''}
                 </Text>
             </Col>

@@ -20,64 +20,65 @@ export default function Home() {
     });
 
     return (
-        <Spin spinning={isLoading}>
+        <>
             <BannerCarousel />
+            <Spin spinning={isLoading}>
+                <Flex justify='center' align='center' className='mt-7'>
+                    <Link to='/toys'>
+                        <Button
+                            style={{
+                                color: 'white',
+                            }}
+                            icon={<SearchOutlined />}
+                            className='h-16 animate-bounce rounded-full border-none bg-[#f47d16] px-9 text-2xl tracking-wider text-slate-50 outline-none ring-4 ring-yellow-100 hover:bg-orange-400'
+                        >
+                            Explore now!
+                        </Button>
+                    </Link>
+                </Flex>
 
-            <Flex justify='center' align='center' className='mt-7'>
-                <Link to='/toys'>
-                    <Button
-                        style={{
-                            color: 'white',
-                        }}
-                        icon={<SearchOutlined />}
-                        className='h-16 animate-bounce rounded-full border-none bg-[#f47d16] px-9 text-2xl tracking-wider text-slate-50 outline-none ring-4 ring-yellow-100 hover:bg-orange-400'
-                    >
-                        Explore now!
-                    </Button>
-                </Link>
-            </Flex>
+                <Card className='mt-10  '>
+                    <Title className='mb-10 text-center'>What are you looking for?</Title>
+                    <Row className='overflow-x-auto px-5' gutter={16} wrap={false}>
+                        {toyOfCateList.map((ele) => (
+                            <Col key={ele?._id} lg={4} md={6} sm={8} xs={12}>
+                                <Link to={`/toys?category=${ele.category}`}>
+                                    <Card className='border-green-200' hoverable>
+                                        <Image
+                                            height={200}
+                                            width='100%'
+                                            preview={false}
+                                            src={ele?.image}
+                                        />
+                                        <Meta className='text-center' title={ele?.category} />
+                                    </Card>
+                                </Link>
+                            </Col>
+                        ))}
+                    </Row>
+                </Card>
 
-            <Card className='mt-10'>
-                <Title className='mb-10 text-center'>What are you looking for?</Title>
-                <Row className='px-5' gutter={16}>
-                    {toyOfCateList.map((ele) => (
-                        <Col key={ele?._id} span={4}>
-                            <Link to='/toys'>
-                                <Card className='border-green-200' hoverable>
-                                    <Image
-                                        height={200}
-                                        width='100%'
-                                        preview={false}
-                                        src={ele?.image}
-                                    />
-                                    <Meta className='text-center' title={ele?.category} />
-                                </Card>
-                            </Link>
-                        </Col>
-                    ))}
-                </Row>
-            </Card>
-
-            <Card className='mt-10'>
-                <Title className='mb-10 text-center'>Best seller</Title>
-                <Row className='px-5' gutter={24}>
-                    {toyOfCateList?.slice(0, 4).map((ele) => (
-                        <Col key={ele?._id} span={6}>
-                            <Link to='/toys'>
-                                <Card className='border-red-200' hoverable>
-                                    <Image
-                                        height={300}
-                                        width='100%'
-                                        preview={false}
-                                        src={ele?.image}
-                                    />
-                                    <Meta className='text-center' title={ele?.name} />
-                                </Card>
-                            </Link>
-                        </Col>
-                    ))}
-                </Row>
-            </Card>
-        </Spin>
+                <Card className='mt-10'>
+                    <Title className='mb-10 text-center'>Best seller</Title>
+                    <Row className='overflow-x-auto px-5' gutter={24}>
+                        {toyOfCateList?.slice(0, 4).map((ele) => (
+                            <Col key={ele?._id} lg={6} md={8} sm={12}>
+                                <Link to={`/toys?name=${ele.name}`}>
+                                    <Card className='border-red-200' hoverable>
+                                        <Image
+                                            height={300}
+                                            width='100%'
+                                            preview={false}
+                                            src={ele?.image}
+                                        />
+                                        <Meta className='text-center' title={ele?.name} />
+                                    </Card>
+                                </Link>
+                            </Col>
+                        ))}
+                    </Row>
+                </Card>
+            </Spin>
+        </>
     );
 }

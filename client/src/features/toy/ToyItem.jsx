@@ -26,7 +26,7 @@ export default function ToyItem({ span, toy }) {
     }
 
     return (
-        <Col span={span} className='mb-5'>
+        <Col lg={span} md={6} sm={8} xs={12} className='mb-5'>
             <Spin spinning={isChanging || isLoading} fullscreen />
             <Card hoverable cover={<Image height={300} preview={false} src={toy.image} />}>
                 <Title className='text-center' level={5}>

@@ -9,15 +9,15 @@ export default function FooterContent() {
     return (
         <footer className='py-1 text-center'>
             <Row justify='center' align='middle'>
-                <Col span={7}>
+                <Col lg={7} md={12} xs={24}>
                     <Title>About me</Title>
                     <Text>Huỳnh Hồ Thọ Tỷ</Text>
                 </Col>
-                <Col span={7}>
+                <Col lg={7} md={12} xs={24}>
                     <Title>Policies</Title>
                     <Button onClick={() => setOpenPolicies(true)}>Read our policies</Button>
                 </Col>
-                <Col span={7}>
+                <Col lg={7} md={12} xs={24}>
                     <Title>Contact me</Title>
 
                     <Button

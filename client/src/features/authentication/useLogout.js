@@ -16,8 +16,8 @@ export function useLogout() {
                 message: 'Success',
                 description: 'Logout successfully!',
             });
-            queryClient.removeQueries();
             localStorage.clear();
+            queryClient.removeQueries();
         },
         onError: () => {
             notification.error({

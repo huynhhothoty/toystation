@@ -22,7 +22,7 @@ export default function AppLayout() {
             </Affix>
 
             <Content className='overflow-y-scroll'>
-                <main className='container w-11/12 py-9'>
+                <main className='container w-10/12 py-9'>
                     <Outlet />
                 </main>
                 <Footer className=''>

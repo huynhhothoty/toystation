@@ -15,7 +15,7 @@ export default function Toy() {
             {toys?.length === 0 ? (
                 <Empty description='No toy match your selection!' />
             ) : (
-                <Row gutter={16}>
+                <Row gutter={16} align={'middle'}>
                     {isLoading ? (
                         <Spin size='large' fullscreen />
                     ) : toys.length > 0 ? (
