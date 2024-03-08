@@ -2,7 +2,7 @@ const { CustomError } = require('../../utils/CustomError');
 
 const sendErrorInDev = (err, res) => {
     res.status(err.statusCode).send({
-        status: err.statusCode,
+        status: err.status,
         message: err.message,
         error: err,
         stack: err.stack,

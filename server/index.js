@@ -1,7 +1,9 @@
+const dotenv = require('dotenv');
+dotenv.config();
+
 const express = require('express');
 const { connectDatabase } = require('./src/configs/DBconfig');
 const { rootRouter } = require('./src/routes/index');
-const dotenv = require('dotenv');
 const { errorHandler } = require('./src/middlewares/error/ErrorHandler');
 const { CustomError } = require('./src/utils/CustomError');
 const cookieParser = require('cookie-parser');
@@ -10,7 +12,6 @@ const cors = require('cors');
 // init app
 const app = express();
 const port = process.env.PORT || 3000;
-dotenv.config();
 
 // config
 const corsOptions = {

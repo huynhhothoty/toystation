@@ -8,13 +8,14 @@ const {
 } = require('../controllers/toyController');
 const { authentication } = require('../middlewares/auth/authenticate');
 const { authorization } = require('../middlewares/auth/authorize');
+const { checkCache } = require('../middlewares/cache/toyCache');
 
 const toyRouter = express.Router();
 
 toyRouter
     .route('/')
     .post(authentication, authorization('admin'), createToy)
-    .get(getAllToy);
+    .get(checkCache, getAllToy);
 
 toyRouter
     .route('/:id')

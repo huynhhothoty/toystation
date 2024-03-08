@@ -65,7 +65,7 @@ const createAndSendToken = (user, statusCode, res) => {
 const register = async (req, res, next) => {
     try {
         const { name, email, password, phone } = req.body;
-        const checkIsExist = await User.findOne({ email });
+        const checkIsExist = await User.findOne({ email }).lean();
         if (checkIsExist)
             return next(new CustomError('This email is already register!', 400));
         const newUser = new User({
