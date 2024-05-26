@@ -16,8 +16,6 @@ const sendErrorInProd = (err, res) => {
             message: err.message,
         });
     } else {
-        console.log('Error', err);
-
         res.status(500).send({
             status: 'error',
             message: 'Opps ! Something went wrong',
@@ -47,6 +45,7 @@ const errorHandler = (err, req, res, next) => {
 
         sendErrorInProd(err, res);
     }
+    console.log(err);
 };
 
 module.exports = { errorHandler };

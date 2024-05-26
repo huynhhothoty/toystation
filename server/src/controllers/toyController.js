@@ -1,4 +1,3 @@
-const { redisClient } = require('../configs/RedisConfig');
 const { Toy } = require('../models/toyModel');
 const { ApiFeatures } = require('../utils/ApiFeature');
 const { CustomError } = require('../utils/CustomError');
@@ -16,17 +15,12 @@ const getAllToy = async (req, res, next) => {
 
         const docs = await apiFeat.myQuery;
 
-        // await redisClient.setEx('toylist', 5, JSON.stringify(docs));
-        await redisClient.json.set('toylist', '$', docs);
-        redisClient.expire('toylist', 5);
-
         res.status(200).send({
             status: 'ok',
             total: docs.length,
             data: docs,
         });
     } catch (error) {
-        console.log(error);
         return next(new CustomError(error));
     }
 };

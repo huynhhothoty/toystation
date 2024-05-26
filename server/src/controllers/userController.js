@@ -53,7 +53,6 @@ const updateUser = async (req, res, next) => {
             user: updatedUser,
         });
     } catch (error) {
-        console.log(error);
         return next(error);
     }
 };

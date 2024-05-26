@@ -5,6 +5,7 @@ export async function changeCart({ userId, newCart }) {
     const userToken = localStorage.getItem('user_token');
     try {
         const res = await customAxios({
+            withCredentials: true,
             method: 'patch',
             url: `${userUrl}/${userId}`,
             headers: {

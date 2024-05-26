@@ -10,7 +10,6 @@ const createOne = (Model) => async (req, res, next) => {
             data: newDocument,
         });
     } catch (error) {
-        console.log(error);
         return next(new CustomError(error));
     }
 };
@@ -28,7 +27,6 @@ const deleteOne = (Model) => async (req, res, next) => {
             data: doc,
         });
     } catch (error) {
-        console.log(error);
         return next(new CustomError(error));
     }
 };
@@ -49,7 +47,6 @@ const updateOne = (Model) => async (req, res, next) => {
             data: doc,
         });
     } catch (error) {
-        console.log(error);
         return next(new CustomError(error));
     }
 };
@@ -68,7 +65,6 @@ const getOne = (Model, populateOptions) => async (req, res, next) => {
             data: doc,
         });
     } catch (error) {
-        console.log(error);
         return next(new CustomError(error));
     }
 };
@@ -86,7 +82,6 @@ const getAll = (Model) => async (req, res, next) => {
             data: docs,
         });
     } catch (error) {
-        console.log(error);
         return next(new CustomError(error));
     }
 };

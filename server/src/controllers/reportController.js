@@ -56,7 +56,6 @@ const getOverallStatistic = async (req, res, next) => {
             },
         });
     } catch (error) {
-        console.log(error);
         return next(new CustomError(error));
     }
 };

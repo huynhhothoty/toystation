@@ -24,7 +24,6 @@ const changePassword = async (req, res, next) => {
             message: 'Change password successfully',
         });
     } catch (error) {
-        console.log(error);
         return next(error);
     }
 };
@@ -78,7 +77,6 @@ const register = async (req, res, next) => {
 
         createAndSendToken(newUser, 201, res);
     } catch (error) {
-        console.log(error);
         return next(error);
     }
 };
@@ -98,7 +96,6 @@ const login = async (req, res, next) => {
         // if pass all, successfully login and send token to client
         createAndSendToken(loginUser, 200, res);
     } catch (error) {
-        console.log(error);
         return next(error);
     }
 };
@@ -146,7 +143,6 @@ const forgetPassword = async (req, res, next) => {
             );
         }
     } catch (error) {
-        console.log(error);
         return next(error);
     }
 };
@@ -179,7 +175,6 @@ const resetPassword = async (req, res, next) => {
             message: 'Your new password was applied!',
         });
     } catch (error) {
-        console.log(error);
         return next(error);
     }
 };
