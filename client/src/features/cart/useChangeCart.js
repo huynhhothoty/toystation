@@ -11,6 +11,7 @@ export function useChangeCart() {
             queryClient.invalidateQueries({
                 queryKey: ['user'],
             });
+
             notification.success({
                 message: 'Update cart successfully!',
                 description: 'Please continue your shopping',

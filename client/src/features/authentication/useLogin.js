@@ -11,6 +11,7 @@ export function useLogin() {
         notification.success({
             message: 'Success',
             description: `Welcome back, ${userName}`,
+            placement: 'topLeft',
         });
     };
     const showFailedNotice = (message) => {
@@ -21,13 +22,16 @@ export function useLogin() {
     };
 
     const { mutate: login, isPending: isLoging } = useMutation({
-        mutationFn: ({ email, password }) => loginApi({ email: email, password: password }),
+        mutationFn: ({ email, password, isRemember }) => loginApi({ email, password, isRemember }),
         onSuccess: (data) => {
             queryClient.setQueryData(['user'], data.user);
             showSuccessNotice(data.user.name);
-            if (data.user.role === 'admin') navigate('/admin');
 
-            localStorage.setItem('user_token', data.accessToken);
+            localStorage.setItem('name', JSON.stringify(data.user.name));
+            localStorage.setItem('role', JSON.stringify(data.user.role));
+
+            if (data.user.role === 'admin') navigate('/admin', { replace: true });
+            else navigate(-1, { replace: true });
         },
         onError: (err) => {
             showFailedNotice(err.message);

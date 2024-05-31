@@ -7,37 +7,19 @@ import {
     SettingOutlined,
     UserOutlined,
 } from '@ant-design/icons';
-import {
-    Alert,
-    App,
-    Button,
-    Col,
-    Dropdown,
-    Image,
-    Input,
-    Modal,
-    Row,
-    Space,
-    Typography,
-} from 'antd';
-import { useState } from 'react';
+import { App, Button, Col, Dropdown, Image, Input, Row, Space, Typography } from 'antd';
 import { Link, useNavigate } from 'react-router-dom';
-import { useUser } from '../features/account/useUser';
-import ForgetPassword from '../features/authentication/ForgetPassword';
-import LoginForm from '../features/authentication/LoginForm';
-import RegisterForm from '../features/authentication/RegisterForm';
 import { useLogout } from '../features/authentication/useLogout';
+import { useLocalStorageState } from '../hooks/useLocalStorageState';
 import CartButton from './CartButton';
-import MessageButton from './MessageButton';
 const { Text } = Typography;
 
 export default function HeaderContent() {
-    const [openLogin, setOpenLogin] = useState(false);
-    const [openReg, setOpenReg] = useState(false);
-    const [openForget, setOpenForget] = useState(false);
     const navigate = useNavigate();
 
-    const { user, isAuthenticated } = useUser();
+    const [name] = useLocalStorageState(null, 'name');
+    const [role] = useLocalStorageState(null, 'role');
+
     const { modal } = App.useApp();
     const { logout } = useLogout();
     const itemsAuthAdmin = [
@@ -87,13 +69,13 @@ export default function HeaderContent() {
             label: 'Login',
             key: '1',
             icon: <LoginOutlined />,
-            onClick: handleOpenLogin,
+            onClick: () => navigate('/login'),
         },
         {
             label: 'Register',
             key: '2',
             icon: <UserOutlined />,
-            onClick: handleOpenReg,
+            onClick: () => navigate('/register'),
         },
     ];
 
@@ -105,19 +87,7 @@ export default function HeaderContent() {
             },
         });
     }
-    function handleOpenLogin() {
-        setOpenReg(false);
-        setOpenLogin(true);
-    }
-    function handleOpenReg() {
-        setOpenLogin(false);
-        setOpenReg(true);
-    }
-    function handleForget() {
-        setOpenLogin(false);
-        setOpenReg(false);
-        setOpenForget(true);
-    }
+
     return (
         <Row align='middle' justify='space-evenly'>
             <Col span={3} offset={1}>
@@ -140,12 +110,12 @@ export default function HeaderContent() {
             <Col span={5} offset={1}>
                 <Space size='large'>
                     {/* <MessageButton openLogin={handleOpenLogin} /> */}
-                    <CartButton openLogin={handleOpenLogin} />
+                    <CartButton />
                     <Dropdown
                         arrow
                         menu={{
-                            items: isAuthenticated
-                                ? user.role === 'admin'
+                            items: name
+                                ? role === 'admin'
                                     ? itemsAuthAdmin
                                     : itemsWhenAuth
                                 : itemsWhenNotAuth,
@@ -157,41 +127,9 @@ export default function HeaderContent() {
                     </Dropdown>
                 </Space>
                 <Text type='danger' className='ps-2'>
-                    {isAuthenticated ? user.name : ''}
+                    {name ? name : ''}
                 </Text>
             </Col>
-            <Modal
-                maskClosable={false}
-                title='Login to your account'
-                footer={null}
-                open={openLogin}
-                onCancel={() => setOpenLogin(false)}
-            >
-                <LoginForm
-                    openReg={handleOpenReg}
-                    openForget={handleForget}
-                    setOpenLogin={setOpenLogin}
-                />
-            </Modal>
-            <Modal
-                maskClosable={false}
-                title='Register an account'
-                footer={null}
-                open={openReg}
-                onCancel={() => setOpenReg(false)}
-            >
-                <RegisterForm openLogin={handleOpenLogin} setOpenReg={setOpenReg} />
-            </Modal>
-            <Modal
-                maskClosable={false}
-                title='Reset password'
-                footer={null}
-                open={openForget}
-                onCancel={() => setOpenForget(false)}
-            >
-                <Alert description='We will send reset code to your email' type='info' />
-                <ForgetPassword setOpenForget={setOpenForget} />
-            </Modal>
         </Row>
     );
 }

@@ -9,7 +9,7 @@ const buttonFormItemLayout = {
         offset: 0,
     },
 };
-export default function ForgetPassword({ setOpenForget }) {
+export default function ForgetPassword() {
     const [isSendCode, setIsSendCode] = useState(false);
     const [email, setEmail] = useState('');
     const [userId, setUserId] = useState('');
@@ -35,7 +35,6 @@ export default function ForgetPassword({ setOpenForget }) {
             {
                 onSuccess: () => {
                     form.resetFields();
-                    setOpenForget(false);
                 },
             }
         );

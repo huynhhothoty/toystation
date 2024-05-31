@@ -1,24 +1,25 @@
 import { LockOutlined, UserOutlined } from '@ant-design/icons';
 import { Button, Checkbox, Flex, Form, Input, Spin, Typography } from 'antd';
+import { useNavigate } from 'react-router-dom';
 import { useLogin } from './useLogin';
 const { Text } = Typography;
 
-export default function LoginForm({ openReg, openForget, setOpenLogin }) {
+export default function LoginForm() {
+    const navigate = useNavigate();
     const { login, isLoging } = useLogin();
     const [form] = Form.useForm();
     const onFinish = (values) => {
-        // console.log('Received values of form: ', values);
-        const { email, password } = values;
+        const { email, password, isRemember } = values;
         login(
-            { email: email, password: password },
+            { email, password, isRemember },
             {
                 onSuccess: () => {
-                    setOpenLogin(false);
-                    form.resetFields();
+                    // form.resetFields();
                 },
             }
         );
     };
+
     return (
         <Spin spinning={isLoging}>
             <Form
@@ -66,11 +67,16 @@ export default function LoginForm({ openReg, openForget, setOpenLogin }) {
 
                 <Form.Item>
                     <Flex justify='space-between' align='center'>
-                        <Form.Item name='remember' valuePropName='checked' noStyle>
+                        <Form.Item
+                            initialValue={false}
+                            name='isRemember'
+                            valuePropName='checked'
+                            noStyle
+                        >
                             <Checkbox>Remember me</Checkbox>
                         </Form.Item>
 
-                        <Button onClick={openForget} type='link'>
+                        <Button onClick={() => navigate('/forget')} type='link'>
                             Forget password?
                         </Button>
                     </Flex>
@@ -79,10 +85,10 @@ export default function LoginForm({ openReg, openForget, setOpenLogin }) {
                 <Form.Item className='mt-5'>
                     <Flex vertical align='center' gap={10}>
                         <Button block size='large' type='primary' htmlType='submit'>
-                            Log in
+                            Login
                         </Button>
                         <Text>OR</Text>
-                        <Button onClick={openReg} type='link'>
+                        <Button onClick={() => navigate('/register')} type='link'>
                             Register now!
                         </Button>
                     </Flex>

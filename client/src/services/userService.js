@@ -1,19 +1,18 @@
 // import axios from 'axios';
-import customAxios from './CustomAxios';
 import {
+    changePassUrl,
+    forgetPassUrl,
+    getCurUserUrl,
     loginUrl,
     logoutUrl,
-    getCurUserUrl,
+    refreshTokenUrl,
     registerUrl,
-    forgetPassUrl,
     resetPassUrl,
     userUrl,
-    changePassUrl,
 } from '../utils/api/apis';
+import customAxios from './CustomAxios';
 
 export async function updatePassword({ oldPassword, newPassword }) {
-    const userToken = localStorage.getItem('user_token');
-
     try {
         const res = await customAxios({
             method: 'patch',
@@ -21,10 +20,6 @@ export async function updatePassword({ oldPassword, newPassword }) {
             data: {
                 oldPassword,
                 newPassword,
-            },
-            headers: {
-                Authorization: `Bearer ${userToken}`,
-                'Content-Type': 'application/json',
             },
         });
 
@@ -36,17 +31,11 @@ export async function updatePassword({ oldPassword, newPassword }) {
 }
 
 export async function updateUserInfo({ userId, updateInfo }) {
-    const userToken = localStorage.getItem('user_token');
-
     try {
         const res = await customAxios({
             method: 'patch',
             url: `${userUrl}/${userId}`,
             data: updateInfo,
-            headers: {
-                Authorization: `Bearer ${userToken}`,
-                'Content-Type': 'application/json',
-            },
         });
 
         return res.data;
@@ -111,36 +100,33 @@ export async function register({ email, password, phone, name }) {
     }
 }
 
-export async function login({ email, password }) {
+export async function login({ email, password, isRemember }) {
     try {
         const res = await customAxios({
             method: 'post',
             url: loginUrl,
             data: {
-                email: email,
-                password: password,
+                email,
+                password,
+                isRemember,
             },
         });
 
-        return res.data;
+        return res.data.data;
     } catch (error) {
         const errMsg = error.response.data.message;
         throw new Error(errMsg);
     }
 }
 
-export async function getCurrentUser(userToken) {
+export async function getCurrentUser() {
     try {
         const data = await customAxios({
             method: 'get',
             url: getCurUserUrl,
-            headers: {
-                Authorization: `Bearer ${userToken}`,
-                'Content-Type': 'application/json',
-            },
         });
 
-        return data.data.user;
+        return data.data.data;
     } catch (error) {
         return null;
     }
@@ -149,11 +135,24 @@ export async function getCurrentUser(userToken) {
 export async function logout() {
     try {
         await customAxios({
-            withCredentials: true,
             method: 'get',
             url: logoutUrl,
         });
     } catch (error) {
         throw new Error('There was an error, try again');
+    }
+}
+
+export async function refreshToken() {
+    try {
+        const res = await customAxios({
+            method: 'get',
+            url: refreshTokenUrl,
+        });
+
+        return res.data;
+    } catch (error) {
+        const errMsg = error.response.data.message;
+        return errMsg;
     }
 }

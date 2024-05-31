@@ -1,42 +1,22 @@
 const { User } = require('../models/userModel');
-const { CustomError } = require('../utils/CustomError');
-const jwt = require('jsonwebtoken');
-const { filterObject } = require('../utils/filterObject');
+const { filterObject } = require('../utils/helper');
 
 // const mongoose = require('mongoose');
 
 const getCurrentUser = async (req, res, next) => {
-    let token;
-    if (req.headers.authorization) {
-        let decode;
-        token = req.headers.authorization.split(' ')[1];
-
-        try {
-            decode = jwt.verify(token, process.env.JWT_SECRET);
-        } catch (error) {
-            return next(
-                new CustomError('Invalid or Expired token, please login again', 401)
-            );
-        }
-        const currentUser = await User.findById(decode.id).populate({
-            path: 'cart',
-            populate: { path: 'item' },
+    try {
+        const userInfo = await User.findById(req.user._id)
+            .select('-password -passwordChangedAt')
+            .populate('cart.item')
+            .lean();
+        res.status(200).send({
+            status: 'ok',
+            message: 'This user is authenticated successfully',
+            data: userInfo,
         });
-
-        if (currentUser && !currentUser.changePasswordAfter(decode.iat)) {
-            res.status(200).send({
-                status: 'ok',
-                user: currentUser,
-            });
-            return;
-        }
+    } catch (error) {
+        return next(error);
     }
-
-    res.status(200).send({
-        status: 'ok',
-        message: 'No current user',
-        user: null,
-    });
 };
 
 const updateUser = async (req, res, next) => {

@@ -22,28 +22,29 @@ export default function Home() {
     return (
         <>
             <BannerCarousel />
-            <Spin spinning={isLoading}>
-                <Flex justify='center' align='center' className='mt-7'>
-                    <Link to='/toys'>
-                        <Button
-                            style={{
-                                color: 'white',
-                            }}
-                            icon={<SearchOutlined />}
-                            className='h-16 animate-bounce rounded-full border-none bg-[#f47d16] px-9 text-2xl tracking-wider text-slate-50 outline-none ring-4 ring-yellow-100 hover:bg-orange-400'
-                        >
-                            Explore now!
-                        </Button>
-                    </Link>
-                </Flex>
 
-                <Card className='mt-10  '>
-                    <Title className='mb-10 text-center'>What are you looking for?</Title>
+            <Flex justify='center' align='center' className='mt-7'>
+                <Link to='/toys'>
+                    <Button
+                        style={{
+                            color: 'white',
+                        }}
+                        icon={<SearchOutlined />}
+                        className='h-16 animate-bounce rounded-full border-none bg-[#f47d16] px-9 text-2xl tracking-wider text-slate-50 outline-none ring-4 ring-yellow-100 hover:bg-orange-400'
+                    >
+                        Explore now!
+                    </Button>
+                </Link>
+            </Flex>
+
+            <Card className='mt-10  '>
+                <Title className='mb-10 text-center'>What are you looking for?</Title>
+                <Spin spinning={isLoading}>
                     <Row className='overflow-x-auto px-5' gutter={16} wrap={false}>
                         {toyOfCateList.map((ele) => (
                             <Col key={ele?._id} lg={4} md={6} sm={8} xs={12}>
-                                <Link to={`/toys?category=${ele.category}`}>
-                                    <Card className='border-green-200' hoverable>
+                                <Card className='my-6 border-green-200' hoverable>
+                                    <Link to={`/toys?category=${ele.category}`}>
                                         <Image
                                             height={200}
                                             width='100%'
@@ -51,20 +52,22 @@ export default function Home() {
                                             src={ele?.image}
                                         />
                                         <Meta className='text-center' title={ele?.category} />
-                                    </Card>
-                                </Link>
+                                    </Link>
+                                </Card>
                             </Col>
                         ))}
                     </Row>
-                </Card>
+                </Spin>
+            </Card>
 
-                <Card className='mt-10'>
-                    <Title className='mb-10 text-center'>Best seller</Title>
+            <Card className='mt-10'>
+                <Title className='mb-10 text-center'>Best seller</Title>
+                <Spin spinning={isLoading}>
                     <Row className='overflow-x-auto px-5' gutter={24}>
                         {toyOfCateList?.slice(0, 4).map((ele) => (
                             <Col key={ele?._id} lg={6} md={8} sm={12}>
-                                <Link to={`/toys?name=${ele.name}`}>
-                                    <Card className='border-red-200' hoverable>
+                                <Card className='my-3 border-red-200' hoverable>
+                                    <Link to={`/toys?name=${ele.name}`}>
                                         <Image
                                             height={300}
                                             width='100%'
@@ -72,13 +75,13 @@ export default function Home() {
                                             src={ele?.image}
                                         />
                                         <Meta className='text-center' title={ele?.name} />
-                                    </Card>
-                                </Link>
+                                    </Link>
+                                </Card>
                             </Col>
                         ))}
                     </Row>
-                </Card>
-            </Spin>
+                </Spin>
+            </Card>
         </>
     );
 }

@@ -20,6 +20,9 @@ import ProductManage from './pages/admin/ProductManage';
 import AccountManage from './pages/admin/AccountManage';
 import OrderDetail from './features/admin/order/OrderDetail';
 import ProtectAdminRoute from './ui/ProtectAdminRoute';
+import Login from './pages/Login';
+import Register from './pages/Register';
+import ForgetPassword from './pages/ForgetPassword';
 
 const queryClient = new QueryClient({
     defaultOptions: {
@@ -42,6 +45,9 @@ function App() {
                     <ReactQueryDevtools initialIsOpen={false} />
                     <BrowserRouter>
                         <Routes>
+                            <Route path='/login' element={<Login />} />
+                            <Route path='/register' element={<Register />} />
+                            <Route path='/forget' element={<ForgetPassword />} />
                             <Route element={<AppLayout />}>
                                 <Route path='/' element={<Home />} />
                                 <Route path='/toys' element={<Toy />} />

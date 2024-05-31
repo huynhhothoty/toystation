@@ -39,8 +39,6 @@ export async function getToyDetail(toyId) {
 }
 
 export async function updateToy({ toyId, data }) {
-    const userToken = localStorage.getItem('user_token');
-
     let imageName, imagePath;
     let updateData = { ...data };
     if ('image' in data) {
@@ -54,10 +52,6 @@ export async function updateToy({ toyId, data }) {
         res = await customAxios({
             method: 'patch',
             url: `${toyUrl}/${toyId}`,
-            headers: {
-                Authorization: `Bearer ${userToken}`,
-                'Content-Type': 'application/json',
-            },
             data: updateData,
         });
     } catch (error) {
@@ -78,8 +72,6 @@ export async function updateToy({ toyId, data }) {
     return res.data.data;
 }
 export async function createToy({ data }) {
-    const userToken = localStorage.getItem('user_token');
-
     const imageName = `${Date.now()}-${data.image.name}`;
     const imagePath = `${supabaseUrl}/storage/v1/object/public/toy-images/${imageName}`;
 
@@ -89,10 +81,6 @@ export async function createToy({ data }) {
             method: 'post',
             url: toyUrl,
             data: { ...data, image: imagePath },
-            headers: {
-                Authorization: `Bearer ${userToken}`,
-                'Content-Type': 'application/json',
-            },
         });
     } catch (error) {
         const errMsg = error.response.data.message;
@@ -113,16 +101,10 @@ export async function createToy({ data }) {
 }
 
 export async function deleteToy(toyId) {
-    const userToken = localStorage.getItem('user_token');
-
     try {
         const res = await customAxios({
             method: 'delete',
             url: `${toyUrl}/${toyId}`,
-            headers: {
-                Authorization: `Bearer ${userToken}`,
-                'Content-Type': 'application/json',
-            },
         });
 
         return res.data.data;

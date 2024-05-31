@@ -1,6 +1,7 @@
 import { Button, Flex, Form, Input, Spin, Typography } from 'antd';
 import { useRegister } from './useRegister';
 import { loadingMsg } from '../../utils/messages';
+import { useNavigate } from 'react-router-dom';
 const { Text } = Typography;
 
 const formItemLayout = {
@@ -26,7 +27,8 @@ const buttonFormItemLayout = {
         offset: 0,
     },
 };
-export default function RegisterForm({ openLogin, setOpenReg }) {
+export default function RegisterForm() {
+    const navigate = useNavigate();
     const { register, isRegistering } = useRegister();
     const [form] = Form.useForm();
     const onFinish = (values) => {
@@ -35,9 +37,7 @@ export default function RegisterForm({ openLogin, setOpenReg }) {
             { email, name, phone, password },
             {
                 onSuccess: () => {
-                    setOpenReg(false);
                     form.resetFields();
-                    openLogin();
                 },
             }
         );
@@ -124,23 +124,6 @@ export default function RegisterForm({ openLogin, setOpenReg }) {
                     <Input.Password />
                 </Form.Item>
 
-                <Form.Item
-                    name='phone'
-                    label='Phone Number'
-                    rules={[
-                        {
-                            required: true,
-                            message: 'Please input your phone number!',
-                        },
-                    ]}
-                >
-                    <Input
-                        style={{
-                            width: '100%',
-                        }}
-                    />
-                </Form.Item>
-
                 {/* <Form.Item label='Captcha' extra='We must make sure that your are a human.'>
                 <Row gutter={8}>
                     <Col span={12}>
@@ -169,7 +152,7 @@ export default function RegisterForm({ openLogin, setOpenReg }) {
                             Register
                         </Button>
                         <Text>OR</Text>
-                        <Button onClick={openLogin} type='link'>
+                        <Button onClick={() => navigate('/login')} type='link'>
                             Have an account? Login now!
                         </Button>
                     </Flex>
