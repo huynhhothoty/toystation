@@ -17,8 +17,8 @@ const { Text } = Typography;
 export default function HeaderContent() {
     const navigate = useNavigate();
 
-    const [name] = useLocalStorageState(null, 'name');
-    const [role] = useLocalStorageState(null, 'role');
+    const [name, setName] = useLocalStorageState(null, 'name');
+    const [role, setRole] = useLocalStorageState(null, 'role');
 
     const { modal } = App.useApp();
     const { logout } = useLogout();
@@ -83,7 +83,15 @@ export default function HeaderContent() {
         modal.confirm({
             title: 'Are you sure to logout?',
             onOk: () => {
-                logout();
+                logout(
+                    {},
+                    {
+                        onSuccess: () => {
+                            setName(null);
+                            setRole(null);
+                        },
+                    }
+                );
             },
         });
     }
